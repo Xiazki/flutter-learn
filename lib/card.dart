@@ -11,7 +11,7 @@ class CardItem extends StatefulWidget {
 }
 
 class _CardState extends State<CardItem> {
-  final double widthFactor = 0.95; // 设置宽度占屏幕宽度的比例
+  final double widthFactor = 0.93; // 设置宽度占屏幕宽度的比例
   final double heightFactor = 0.5; // 设置高度占屏幕高度的比例
 
   @override
@@ -34,14 +34,6 @@ class _CardState extends State<CardItem> {
             children: [
               SizedBox(
                 height: screenHeight * heightFactor * 0.7,
-                // child: ConstrainedBox(
-                //   constraints: const BoxConstraints.expand(),
-                //   child: Image(fit: BoxFit.cover,image: AssetImage(widget.classifyValue.imageUrl??"")),
-                // ),
-                // child: ClipRRect(
-                //   child: Image(fit: BoxFit.cover,image: AssetImage(widget.classifyValue.imageUrl??"")),
-                // ),
-                // child: Image(fit: BoxFit.cover,image: AssetImage(widget.classifyValue.imageUrl??"")),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.vertical(
@@ -52,11 +44,13 @@ class _CardState extends State<CardItem> {
                   ),
                 ),
               ),
-              SizedBox(
+              //文字区
+              SizedBox( 
                 height: screenHeight * heightFactor * 0.3,
                 width: screenWidth * widthFactor,
                 child: Column(
                   children: [
+                    //标题
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -67,9 +61,6 @@ class _CardState extends State<CardItem> {
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13))),
-                        // Align(
-                        //     alignment: Alignment.centerRight,
-                        //     child: Icon(Icons.home)),
                         const Align(
                           alignment: Alignment.centerRight,
                           child: Row(
@@ -93,7 +84,7 @@ class _CardState extends State<CardItem> {
                               Padding(
                                 padding:
                                     EdgeInsets.fromLTRB(5.0, 10.0, 0.0, 0.0),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.play_circle,
                                   size: 18,
                                 ),
@@ -111,6 +102,9 @@ class _CardState extends State<CardItem> {
                         ),
                       ],
                     ),
+                    // 创建一个默认样式的分割线
+                    const Divider(), 
+                    //正文
                     Row(
                       children: [
                         SizedBox(
@@ -121,7 +115,7 @@ class _CardState extends State<CardItem> {
                               child: Text(
                                   overflow: TextOverflow.ellipsis,
                                   widget.classifyValue.des ?? "",
-                                  maxLines: 3,
+                                  maxLines: 4,
                                   style: const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                       fontSize: 11))),
