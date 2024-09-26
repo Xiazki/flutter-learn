@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,35 +47,49 @@ class _ImageState extends State<ImageItem> {
     }
   }
 
+Future<void> _pickFile() async{
+   final result =  await FilePicker.platform.pickFiles(type: FileType.any,allowMultiple: false);
+   if(result!=null){
+    setState(() {
+      _image = File(result.files.single.path!);
+      _path =  result.files.single.path;  
+    });
+    
+   }
+}
+
   Future<void> _showDir() async {
-    final status = await Permission.storage.request();
+    final status = await Permission.manageExternalStorage.request();
     if (status.isGranted) {
       var dir = await getExternalStorageDirectory();
-      // String c = "";
-      dir?.list(recursive: true).forEach((entity) {
+      if (dir?.path != null) {
         setState(() {
-          contnet = entity.path;
+          contnet = dir!.path;
         });
-        // c = "$c${entity.path}\n";
-      });
+      }
     }
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
-    if (contnet != null && contnet!="") {
+    // if (contnet != null && contnet != "") {
+    //   return Center(
+    //       child: Column(
+    //     children: [
+    //       Text(contnet ?? ""),
+    //       Image.file(File.fromRawPath(utf8.encode(
+    //           "/storage/emulated/0/DCIM/Camera/IMG_20240922_104229.jpg"))),
+    //       ElevatedButton(onPressed: _showDir, child: const Text("显示目录"))
+    //     ],
+    //   ));
+    // }
+    if (_path == null) {
       return Column(
         children: [
-          Text(contnet ?? ""),
-          ElevatedButton(onPressed: _showDir, child: const Text("显示目录"))
-        ],
-      );
-    }
-    if (_image == null) {
-      return Column(
-        children: [
-          Text(contnet ?? ""),
-          ElevatedButton(onPressed: _pickImage, child: const Text("选择图片")),
+          ElevatedButton(onPressed: _pickFile, child: const Text("选择图片")),
           ElevatedButton(onPressed: _showDir, child: const Text("显示目录"))
         ],
       );
@@ -82,11 +97,13 @@ class _ImageState extends State<ImageItem> {
       return Column(
         children: [
           // FileImage(_image),
-          Image.file(_image!),
+          // Image.file(_image!),
           Text(_path!),
           Image.file(File.fromRawPath(utf8.encode(_path!))),
+          Image.file(File.fromRawPath(utf8.encode(
+              "/storage/emulated/0/DCIM/Camera/IMG_20240922_104229.jpg"))),
           Text(contnet ?? ""),
-          ElevatedButton(onPressed: _pickImage, child: const Text("选择图片")),
+          ElevatedButton(onPressed: _pickFile, child: const Text("选择图片")),
           ElevatedButton(onPressed: _showDir, child: const Text("显示目录"))
         ],
       );
