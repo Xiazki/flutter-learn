@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/card.dart';
+import 'package:flutter_learn/image_item.dart';
 import 'package:flutter_learn/model/classify_value.dart';
 
 void main() {
@@ -95,13 +96,18 @@ class _MyHomePageState extends State<MyHomePage> {
       //   title: Text(widget.title),
       // ),
 
+      body: Center(child: ImageItem()),
+      
+      // body:  ListView.builder(
+      //     itemCount: widget.values.length,
+      //     itemBuilder: (context, index) {
+      //       return Center(child: CardItem(classifyValue: widget.values[index])) ;
+      //     }),
+
+
+
       // body: CardItem(classifyValue: ClassifyValue("广州游记", "images/test.jpg",
       //             "2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人")),
-      body:  ListView.builder(
-          itemCount: widget.values.length,
-          itemBuilder: (context, index) {
-            return Center(child: CardItem(classifyValue: widget.values[index])) ;
-          }),
       // body: Center(
       //   // Center is a layout widget. It takes a single child and positions it
       //   // in the middle of the parent.

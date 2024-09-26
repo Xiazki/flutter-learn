@@ -32,6 +32,7 @@ class _CardState extends State<CardItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //图片区
               SizedBox(
                 height: screenHeight * heightFactor * 0.7,
                 child: Container(
