@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/model/node_value.dart';
+import 'package:flutter_learn/util/auto_resize_image.dart';
 
 class NodeCard extends StatefulWidget {
   NodeValue nodeValue;
@@ -27,7 +28,16 @@ class _NodeCardState extends State<NodeCard> {
                 crossAxisCount: 4,
                 children:
                     List.generate(widget.nodeValue.entities.length, (index) {
-                  return Image.asset(nodeValue.entities[index].url);
+                  return LayoutBuilder(builder:
+                      (BuildContext context, BoxConstraints constructors) {
+                    return Image(
+                        fit: BoxFit.cover,
+                        image: AutoResizeImage(
+                            imageProvider:
+                                AssetImage(nodeValue.entities[index].url),
+                            width: constructors.maxWidth,
+                            height: constructors.maxHeight));
+                  });
                 })),
           ),
         ],
