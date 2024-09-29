@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learn/card.dart';
 import 'package:flutter_learn/image_item.dart';
 import 'package:flutter_learn/model/classify_value.dart';
+import 'package:flutter_learn/top_node_card.dart';
+import 'package:flutter_learn/util/data_util.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,19 +32,21 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       home: MyHomePage(
           title: 'Flutter Demo Home Page',
-          values: List<ClassifyValue>.generate(
-              4,
-              (i) => ClassifyValue(
-                  "广州游记",
-                  "images/test.jpg",
-                  "2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人",
-                  "2024年9月21日",
-                  "2024年9月21日"))),
+          values: List<ClassifyValue>.generate(4, (i) {
+            var v = ClassifyValue(
+                "广州游记",
+                "images/test.jpg",
+                "2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人",
+                "2024年9月21日",
+                "2024年9月21日");
+            v.topEntities = DataUtil.getEntities();
+            return v;
+          })),
     );
   }
 }
@@ -90,23 +94,28 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      // appBar: AppBar(
-      //   // TRY THIS: Try changing the color here to a specific color (to
-      //   // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-      //   // change color while the other colors stay the same.
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      //   // Here we take the value from the MyHomePage object that was created by
-      //   // the App.build method, and use it to set our appbar title.
-      //   title: Text(widget.title),
-      // ),
+      appBar: AppBar(
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
+        // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+      ),
+
+ 
+
+      
+
+      // body: ListView.builder(
+      //     itemCount: widget.values.length,
+      //     itemBuilder: (context, index) {
+      //       return Center(child: CardItem(classifyValue: widget.values[index]));
+      //     }),
+
+      body: TopNodeCard(classifyValue: widget.values[0]),
 
       // body: Center(child: ImageItem()),
-
-      body: ListView.builder(
-          itemCount: widget.values.length,
-          itemBuilder: (context, index) {
-            return Center(child: CardItem(classifyValue: widget.values[index]));
-          }),
 
       // body: CardItem(classifyValue: ClassifyValue("广州游记", "images/test.jpg",
       //             "2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人")),

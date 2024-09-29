@@ -43,7 +43,7 @@ class _DetailState extends State<Detail> {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
                   child: Text(
-                    (value.startTime ?? "") + "-" + (value.endTime ?? ""),
+                    "${value.startTime ?? ""}-${value.endTime ?? ""}",
                     style: const TextStyle(color: Colors.grey),
                   ),
                 );

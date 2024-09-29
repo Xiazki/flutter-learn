@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/model/node_value.dart';
 import 'package:flutter_learn/util/auto_resize_image.dart';
 
@@ -29,24 +30,49 @@ class _NodeCardState extends State<NodeCard> {
           child: GridView.count(
               crossAxisCount: 4,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children:
                   List.generate(widget.nodeValue.entities.length, (index) {
-                return LayoutBuilder(builder:
-                    (BuildContext context, BoxConstraints constructors) {
-                  return Card(
-                    child: Image(
-                        fit: BoxFit.cover,
-                        image: AutoResizeImage(
-                            imageProvider:
-                                AssetImage(nodeValue.entities[index].url),
-                            width: constructors.maxWidth,
-                            height: constructors.maxHeight)),
-                  );
-                });
+                return _getItem(nodeValue.entities[index]);
               })),
         ),
       ],
     );
+  }
+
+  Widget _getItem(Entity entity) {
+    if (entity.type == Entity.IMAGE) {
+      return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constructors) {
+        return Card(
+          child: Image(
+              fit: BoxFit.cover,
+              image: AutoResizeImage(
+                  imageProvider: AssetImage(entity.url),
+                  width: constructors.maxWidth,
+                  height: constructors.maxHeight)),
+        );
+      });
+    } else {
+      return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constructors) {
+        return Card(
+          child: Stack(
+            children: [
+              Image(
+                  fit: BoxFit.cover,
+                  image: AutoResizeImage(
+                      imageProvider: AssetImage(entity.url),
+                      width: constructors.maxWidth,
+                      height: constructors.maxHeight)),
+              Container(
+                alignment: Alignment.center,
+                child: Icon(Icons.play_circle, color: Colors.grey.withOpacity(0.5)),
+              )
+            ],
+          ),
+        );
+      });
+    }
   }
 }

@@ -20,4 +20,17 @@ class DataUtil {
       NodeValue(entities, "徒步旅🚶")
     ];
   }
+
+  static List<Entity> getEntities(){
+    return [
+      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.IMAGE)
+    ];
+  }
 }
