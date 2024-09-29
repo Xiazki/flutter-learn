@@ -45,6 +45,7 @@ class _NodeCardState extends State<NodeCard> {
       return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constructors) {
         return Card(
+          margin: const EdgeInsets.all(2.0),
           child: Image(
               fit: BoxFit.cover,
               image: AutoResizeImage(
@@ -54,25 +55,36 @@ class _NodeCardState extends State<NodeCard> {
         );
       });
     } else {
-      return LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constructors) {
-        return Card(
-          child: Stack(
-            children: [
-              Image(
+      return Card(
+        margin: const EdgeInsets.all(2.0),
+        child: Stack(
+          fit: StackFit.expand,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          alignment: AlignmentDirectional.center,
+          children: [
+            LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constructors) {
+              return Image(
                   fit: BoxFit.cover,
                   image: AutoResizeImage(
                       imageProvider: AssetImage(entity.url),
                       width: constructors.maxWidth,
-                      height: constructors.maxHeight)),
-              Container(
-                alignment: Alignment.center,
-                child: Icon(Icons.play_circle, color: Colors.grey.withOpacity(0.5)),
-              )
-            ],
-          ),
-        );
-      });
+                      height: constructors.maxHeight)
+                      );
+            }),
+            Container(
+              alignment: Alignment.center,
+              child:
+                  Icon(Icons.play_circle, color: Colors.white.withOpacity(0.8)),
+            ),
+            Container(
+              alignment: Alignment.bottomRight,
+              child:
+                  Text("1:20",style: TextStyle(color: Colors.white.withOpacity(0.8),fontSize: 12),),
+            )
+          ],
+        ),
+      );
     }
   }
 }

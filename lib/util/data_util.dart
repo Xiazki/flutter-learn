@@ -5,11 +5,11 @@ class DataUtil {
   static List<NodeValue> getNodeValueByClassify(String key) {
     var entities = [
       Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.VIDEO),
       Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.VIDEO),
       Entity("images/test.jpg", Entity.IMAGE),
-      Entity("images/test.jpg", Entity.IMAGE),
-      Entity("images/test.jpg", Entity.IMAGE),
-      Entity("images/test.jpg", Entity.IMAGE),
+      Entity("images/test.jpg", Entity.VIDEO),
       Entity("images/test.jpg", Entity.IMAGE),
       Entity("images/test.jpg", Entity.IMAGE)
     ];

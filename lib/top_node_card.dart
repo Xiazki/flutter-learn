@@ -44,13 +44,14 @@ class _TopCardState extends State<TopNodeCard> {
             child: CarouselSlider(
               options: CarouselOptions(
                 autoPlay: true,
-                aspectRatio: 2,
+                aspectRatio: 1,
+                disableCenter: true
                 // enlargeCenterPage: true,
               ),
               items: _imageItems(),
             )),
         Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
+          padding: const EdgeInsets.fromLTRB(10.0, 16.0, 5.0, 10.0),
           child: Text(
             stateValue.des ?? "",
           ),

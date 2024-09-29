@@ -73,6 +73,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _atitle = "分类";
 
   void _incrementCounter() {
     setState(() {
@@ -101,19 +102,16 @@ class _MyHomePageState extends State<MyHomePage> {
         // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
+        title: Text(_atitle),
       ),
 
- 
+      body: ListView.builder(
+          itemCount: widget.values.length,
+          itemBuilder: (context, index) {
+            return Center(child: CardItem(classifyValue: widget.values[index]));
+          }),
 
-      
-
-      // body: ListView.builder(
-      //     itemCount: widget.values.length,
-      //     itemBuilder: (context, index) {
-      //       return Center(child: CardItem(classifyValue: widget.values[index]));
-      //     }),
-
-      body: TopNodeCard(classifyValue: widget.values[0]),
+      // body: TopNodeCard(classifyValue: widget.values[0]),
 
       // body: Center(child: ImageItem()),
 
@@ -149,10 +147,15 @@ class _MyHomePageState extends State<MyHomePage> {
       //     children: [CardItem(classifyValue: ClassifyValue("广州游记", "images/test.jpg","2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人"))],
       //   ),
       // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
+        elevation: 10,
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        shape: const CircleBorder(),
+         backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        child: const Icon(Icons.add,color: Colors.green,)
+
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
