@@ -38,7 +38,7 @@ class _DetailState extends State<Detail> {
               } else {
                 return Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child:  NodeCard(nodeValue: values[i]));
+                    child:  NodeCard(nodeValue: values[i],allNodeValue: values,indexOfNode: i,));
               }
             }));
   }

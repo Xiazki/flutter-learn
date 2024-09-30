@@ -1,3 +1,4 @@
+import 'package:flutter_learn/model/classify_value.dart';
 import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/model/node_value.dart';
 
@@ -32,5 +33,21 @@ class DataUtil {
       Entity("images/test.jpg", Entity.IMAGE),
       Entity("images/test.jpg", Entity.IMAGE)
     ];
+  }
+
+  static List<Entity> getAllEntities(List<NodeValue> allNodeValues){
+      List<Entity> all = [];
+      for (var node in allNodeValues) {
+          all.addAll(node.entities);
+      }
+      return all;
+  }
+
+  static int indexOfAll(List<NodeValue> allNodeValues,List<Entity> allEntity,int indexOfAll,int index){
+      int count = 0;
+      for(var i = 0;i<indexOfAll;i++){
+          count = count + allNodeValues[i].entities.length;
+      }
+      return count+index;
   }
 }
