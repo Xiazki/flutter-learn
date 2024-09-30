@@ -89,7 +89,7 @@ class _NodeCardState extends State<NodeCard> {
               alignment: Alignment.center,
               child:
                   Icon(Icons.play_circle, color: Colors.white.withOpacity(0.8)),
-            ),
+            ), 
             Container(
               alignment: Alignment.bottomRight,
               child:

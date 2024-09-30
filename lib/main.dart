@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/add/classify_add_page.dart';
 import 'package:flutter_learn/card.dart';
+import 'package:flutter_learn/classify_page.dart';
 import 'package:flutter_learn/image_item.dart';
+import 'package:flutter_learn/map_page.dart';
 import 'package:flutter_learn/model/classify_value.dart';
 import 'package:flutter_learn/top_node_card.dart';
 import 'package:flutter_learn/util/data_util.dart';
@@ -35,24 +38,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: MyHomePage(
-          title: 'Flutter Demo Home Page',
-          values: List<ClassifyValue>.generate(4, (i) {
-            var v = ClassifyValue(
-                "广州游记",
-                "images/test.jpg",
-                "2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人",
-                "2024年9月21日",
-                "2024年9月21日");
-            v.topEntities = DataUtil.getEntities();
-            return v;
-          })),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.values});
+  const MyHomePage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -63,26 +55,23 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
-
-  final List<ClassifyValue> values;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  String _atitle = "分类";
+  int _currentIndex = 0;
+  List<Widget> pages = [const ClassifyPage(), const MapPage()];
 
-  void _incrementCounter() {
+
+  final List<BottomNavigationBarItem> _navigationItems = [
+    const BottomNavigationBarItem(icon: Icon(Icons.home),label: "home"),
+    const BottomNavigationBarItem(icon: Icon(Icons.map),label: "map"),
+  ];
+
+  void _onItemTapped(int index) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _currentIndex = index;
     });
   }
 
@@ -94,69 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    // return ClassifyAddPage();
+
+
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(_atitle),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        items: _navigationItems,
+        onTap: _onItemTapped,
+        elevation: 5.0,
+        // backgroundColor: const Color.fromARGB(255, 249, 255, 245),
       ),
-
-      body: ListView.builder(
-          itemCount: widget.values.length,
-          itemBuilder: (context, index) {
-            return Center(child: CardItem(classifyValue: widget.values[index]));
-          }),
-
-      // body: TopNodeCard(classifyValue: widget.values[0]),
-
-      // body: Center(child: ImageItem()),
-
-      // body: CardItem(classifyValue: ClassifyValue("广州游记", "images/test.jpg",
-      //             "2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人")),
-      // body: Center(
-      //   // Center is a layout widget. It takes a single child and positions it
-      //   // in the middle of the parent.
-      //   child: Column(
-      //     // Column is also a layout widget. It takes a list of children and
-      //     // arranges them vertically. By default, it sizes itself to fit its
-      //     // children horizontally, and tries to be as tall as its parent.
-      //     //
-      //     // Column has various properties to control how it sizes itself and
-      //     // how it positions its children. Here we use mainAxisAlignment to
-      //     // center the children vertically; the main axis here is the vertical
-      //     // axis because Columns are vertical (the cross axis would be
-      //     // horizontal).
-      //     //
-      //     // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-      //     // action in the IDE, or press "p" in the console), to see the
-      //     // wireframe for each widget.
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     // children: <Widget>[
-      //     //   const Text(
-      //     //     'You have pushed the button this many times:',
-      //     //   ),
-      //     //   Text(
-      //     //     '$_counter',
-      //     //     style: Theme.of(context).textTheme.headlineMedium,
-      //     //   ),
-      //     // ],
-      //     children: [CardItem(classifyValue: ClassifyValue("广州游记", "images/test.jpg","2024年9月的一个周末，我门去广州游玩😊😄😄\n 广州市🗺️，简称“穗”，别称羊城、花城、五羊城，广东省辖地级市🚩，是广东省省会、副省级市、国家中心城市、超大城市 [272]，地处中国华南地区，广东省中南部，珠江三角洲的北缘，接近珠江流域下游入海口，总面积7434.40平方千米。 [452]截至2023年10月，广州市下辖11个区。 [1] [69]截至2023年末，广州市常住人口1882.70万人"))],
-      //   ),
-      // ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: FloatingActionButton(
-        elevation: 10,
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        shape: const CircleBorder(),
-         backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        child: const Icon(Icons.add,color: Colors.green,)
-
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: pages[_currentIndex],
     );
   }
 }

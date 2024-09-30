@@ -13,7 +13,7 @@ class CardItem extends StatefulWidget {
 
 class _CardState extends State<CardItem> {
   final double widthFactor = 0.93; // 设置宽度占屏幕宽度的比例
-  final double heightFactor = 0.5; // 设置高度占屏幕高度的比例
+  final double heightFactor = 0.4; // 设置高度占屏幕高度的比例
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,6 @@ class _CardState extends State<CardItem> {
           borderRadius: BorderRadius.circular(5.0), // 设置圆角半径为 5.0
         ),
         elevation: 5,
-        // InkWell(
-
-        // )
         child: InkWell(
             onTap: () {
               Navigator.push(
@@ -74,7 +71,7 @@ class _CardState extends State<CardItem> {
                                 child: Text(widget.classifyValue.title ?? "",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 13))),
+                                        fontSize: 14))),
                             const Align(
                               alignment: Alignment.centerRight,
                               child: Row(
@@ -129,10 +126,10 @@ class _CardState extends State<CardItem> {
                                   child: Text(
                                       overflow: TextOverflow.ellipsis,
                                       widget.classifyValue.des ?? "",
-                                      maxLines: 4,
+                                      maxLines: 2,
                                       style: const TextStyle(
                                           // fontWeight: FontWeight.bold,
-                                          fontSize: 11))),
+                                          fontSize: 14))),
                             ),
                           ],
                         )
