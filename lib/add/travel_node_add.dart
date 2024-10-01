@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/model/node_value.dart';
 import 'package:flutter_learn/unit/grid_media.dart';
 import 'package:flutter_learn/util/data_util.dart';
@@ -19,7 +18,7 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
 
   NodeValue? nodeValue;
 
-  double areaFactor = 0.8;
+  double areaFactor = 0.75;
   double buttonFactor = 0.1;
 
   @override
@@ -47,12 +46,12 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
       ),
       body: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: screenHeight * areaFactor,
-                child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: screenHeight * areaFactor,
                   child: Column(
                     children: [
                       _buildContentItem(),
@@ -69,12 +68,12 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
                     ],
                   ),
                 ),
-              ),
-              SizedBox(
-                height: screenHeight * buttonFactor,
-                child: _buildCreate(),
-              )
-            ],
+                SizedBox(
+                  height: screenHeight * buttonFactor,
+                  child: _buildCreate(),
+                )
+              ],
+            ),
           )),
     );
   }
@@ -102,9 +101,12 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
         //todo
       },
       child: const Card(
+        // elevation: 5,
+        
           margin: EdgeInsets.all(2.0),
+          // color: Colors.grey,
           child: Icon(
-            Icons.add,
+            Icons.add_photo_alternate,
             color: Colors.grey,
           )),
     );

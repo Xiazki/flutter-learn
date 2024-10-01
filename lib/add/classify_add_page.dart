@@ -11,7 +11,7 @@ class ClassifyAddPage extends StatefulWidget {
 }
 
 class ClassifyAddState extends State<ClassifyAddPage> {
-  double areaFactor = 0.8;
+  double areaFactor = 0.75;
   double buttonFactor = 0.1;
 
   List<Entity>? _selectedEntities;
@@ -35,7 +35,8 @@ class ClassifyAddState extends State<ClassifyAddPage> {
         ),
       ),
       body: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start, // 确保主轴对齐方式正确
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +74,9 @@ class ClassifyAddState extends State<ClassifyAddPage> {
                 child: _buildCreate(),
               )
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 
@@ -142,17 +145,17 @@ class ClassifyAddState extends State<ClassifyAddPage> {
   }
 
   Widget _buildSelectedItem() {
-  //  Widget addItem = GestureDetector(
-  //     onTap: () {
-  //       //todo
-  //     },
-  //     child: const Card(
-  //         margin: EdgeInsets.all(2.0),
-  //         child: Icon(
-  //           Icons.add,
-  //           color: Colors.grey,
-  //         )),
-  //   );
+    //  Widget addItem = GestureDetector(
+    //     onTap: () {
+    //       //todo
+    //     },
+    //     child: const Card(
+    //         margin: EdgeInsets.all(2.0),
+    //         child: Icon(
+    //           Icons.add,
+    //           color: Colors.grey,
+    //         )),
+    //   );
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
