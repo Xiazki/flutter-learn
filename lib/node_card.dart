@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/model/node_value.dart';
 import 'package:flutter_learn/unit/grid_media.dart';
+import 'package:flutter_learn/unit/media_view.dart';
 import 'package:flutter_learn/util/auto_resize_image.dart';
 import 'package:flutter_learn/util/data_util.dart';
 import 'package:interactiveviewer_gallery/hero_dialog_route.dart';
@@ -13,19 +14,26 @@ class NodeCard extends StatefulWidget {
   List<NodeValue> allNodeValue;
   int indexOfNode;
 
-  NodeCard({super.key, required this.nodeValue,required this.allNodeValue,required this.indexOfNode});
+  NodeCard(
+      {super.key,
+      required this.nodeValue,
+      required this.allNodeValue,
+      required this.indexOfNode});
 
   @override
   State<StatefulWidget> createState() => _NodeCardState();
 }
 
 class _NodeCardState extends State<NodeCard> {
-
   late List<Entity> _allEntityValue;
+  late List<NodeValue> _allNodeValue;
+  late int _indexOfNode;
 
   @override
   void initState() {
     _allEntityValue = DataUtil.getAllEntities(widget.allNodeValue);
+    _allNodeValue = widget.allNodeValue;
+    _indexOfNode = widget.indexOfNode;
   }
 
   @override
@@ -47,31 +55,42 @@ class _NodeCardState extends State<NodeCard> {
               physics: const NeverScrollableScrollPhysics(),
               children:
                   List.generate(widget.nodeValue.entities.length, (index) {
-                return GridMedia(entity:  nodeValue.entities[index]);
+                var entity = nodeValue.entities[index];
+                return _buildItem(entity, index);
               })),
         ),
       ],
     );
   }
+
+  Widget _buildItem(Entity entity, int indexOfEntity) {
+    return Hero(
+        tag: entity.id,
+        child: GestureDetector(
+          onTap: () => _openGallery(entity, indexOfEntity),
+          child: GridMedia(entity: entity),
+        ));
+  }
   // todo 图片&视频preview
 
-
-  //   void _openGallery(Entity source,int index) {
-  //   Navigator.of(context).push(
-  //     HeroDialogRoute<void>(
-  //       // DisplayGesture is just debug, please remove it when use
-  //       builder: (BuildContext context) => DisplayGesture(
-  //         child: InteractiveviewerGallery<Entity>(
-  //           sources: _allEntityValue,
-  //           initIndex: sourceList.indexOf(source),
-  //           itemBuilder: itemBuilder,
-  //           onPageChanged: (int pageIndex) {
-  //             print("nell-pageIndex:$pageIndex");
-  //           },
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
+  void _openGallery(Entity entity, int indexOfEntity) {
+    int current = DataUtil.indexOfAll(_allEntityValue, entity);
+    Navigator.of(context).push(
+      HeroDialogRoute<void>(
+        // DisplayGesture is just debug, please remove it when use
+        builder: (BuildContext context) => InteractiveviewerGallery<Entity>(
+          sources: _allEntityValue,
+          initIndex: current,
+          itemBuilder: (context, index, isFocus) {
+            var entity = _allEntityValue[index];
+            NodeValue? nodeValue = DataUtil.getNodeValueByEntity(_allNodeValue,entity);
+            return ImageView(entity, nodeValue == null?"":nodeValue.desc);
+          },
+          onPageChanged: (int pageIndex) {
+            // print("nell-pageIndex:$pageIndex");
+          },
+        ),
+      ),
+    );
+  }
 }

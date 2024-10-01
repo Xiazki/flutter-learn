@@ -5,8 +5,9 @@ class Entity {
 // ignore: constant_identifier_names
   static const String VIDEO = "video";
 
-  Entity(this.url, this.type);
+  Entity(this.id,this.url, this.type);
 
+  String id;
   String url;
   String type;
 }

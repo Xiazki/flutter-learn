@@ -3,6 +3,7 @@ import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/util/auto_resize_image.dart';
 
 class GridMedia extends StatelessWidget {
+  
   final Entity entity;
 
   const GridMedia({super.key, required this.entity});
