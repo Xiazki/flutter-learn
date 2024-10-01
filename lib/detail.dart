@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/add/travel_node_add.dart';
 import 'package:flutter_learn/model/classify_value.dart';
 import 'package:flutter_learn/model/node_value.dart';
 import 'package:flutter_learn/node_card.dart';
@@ -23,11 +24,27 @@ class _DetailState extends State<Detail> {
     values = DataUtil.getNodeValueByClassify(widget.classifyValue.title!);
   }
 
+  void _pressed(){
+          Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TravelNodeAdd()));
+  }
+
   @override
   Widget build(BuildContext context) {
     var value = widget.classifyValue;
     int count = values.length + 1;
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: FloatingActionButton(
+          elevation: 10,
+          onPressed: _pressed,
+          tooltip: '创建节点',
+          shape: const CircleBorder(),
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          child: const Icon(
+            Icons.add_photo_alternate,
+            color: Colors.green,
+          )),
         body: ListView.builder(
             itemCount: count,
             itemBuilder: (context, index) {

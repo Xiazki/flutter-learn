@@ -11,55 +11,86 @@ class ClassifyAddPage extends StatefulWidget {
 }
 
 class ClassifyAddState extends State<ClassifyAddPage> {
+  double areaFactor = 0.8;
+  double buttonFactor = 0.1;
+
   List<Entity>? _selectedEntities;
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      // appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start, // 确保主轴对齐方式正确
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildSelectedItem(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                  child: _buildTitleItem(),
-                ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                  child: _buildContentItem(),
-                ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                  child: _buildLocationItem(),
-                ),
-              ],
-            ),
-            Positioned(
-                bottom: 20,
-                left: 20,
-                right: 20,
-                child: Center(
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(500, 50),
-                            backgroundColor: Colors.green,
-                            foregroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0))),
-                        onPressed: () {},
-                        child: const Text("创建分类"))))
-          ],
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.grey,
+          ),
+          onPressed: () {
+            // 当点击返回按钮时触发的动作
+            // 导航回到上一个页面
+            Navigator.pop(context);
+          },
         ),
       ),
+      body: Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start, // 确保主轴对齐方式正确
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: screenHeight * areaFactor,
+                child: Column(
+                  children: [
+                    _buildSelectedItem(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                      child: _buildTitleItem(),
+                    ),
+                    const Divider(
+                      height: 1,
+                      thickness: 0.2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                      child: _buildContentItem(),
+                    ),
+                    const Divider(
+                      height: 0.1,
+                      thickness: 0.2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                      child: _buildLocationItem(),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * buttonFactor,
+                child: _buildCreate(),
+              )
+            ],
+          )),
     );
+  }
+
+  Widget _buildCreate() {
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(400, 50),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0))),
+                onPressed: () {},
+                child: const Text("创建相册"))));
   }
 
   Widget _buildLocationItem() {
@@ -71,7 +102,11 @@ class ClassifyAddState extends State<ClassifyAddPage> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start, // 左对齐
             children: [
-              Icon(Icons.location_pin,color: Colors.red,size: 20,),
+              Icon(
+                Icons.location_pin,
+                color: Colors.red,
+                size: 20,
+              ),
               SizedBox(width: 4.0),
               Text('添加地点'),
             ],
@@ -107,6 +142,17 @@ class ClassifyAddState extends State<ClassifyAddPage> {
   }
 
   Widget _buildSelectedItem() {
+  //  Widget addItem = GestureDetector(
+  //     onTap: () {
+  //       //todo
+  //     },
+  //     child: const Card(
+  //         margin: EdgeInsets.all(2.0),
+  //         child: Icon(
+  //           Icons.add,
+  //           color: Colors.grey,
+  //         )),
+  //   );
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(

@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_learn/add/classify_add_page.dart';
-import 'package:flutter_learn/card.dart';
 import 'package:flutter_learn/classify_page.dart';
-import 'package:flutter_learn/image_item.dart';
 import 'package:flutter_learn/map_page.dart';
-import 'package:flutter_learn/model/classify_value.dart';
-import 'package:flutter_learn/top_node_card.dart';
-import 'package:flutter_learn/util/data_util.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   final List<BottomNavigationBarItem> _navigationItems = [
-    const BottomNavigationBarItem(icon: Icon(Icons.home),label: "home"),
-    const BottomNavigationBarItem(icon: Icon(Icons.map),label: "map"),
+    const BottomNavigationBarItem(icon: Icon(Icons.home),label: "首页"),
+    const BottomNavigationBarItem(icon: Icon(Icons.map),label: "地图"),
   ];
 
   void _onItemTapped(int index) {

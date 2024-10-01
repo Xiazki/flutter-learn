@@ -67,7 +67,7 @@ class _CardState extends State<CardItem> {
                           children: [
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(
-                                    10.0, 10.0, 10.0, 0.0),
+                                    10.0, 10.0, 10.0, 2.0),
                                 child: Text(widget.classifyValue.title ?? "",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _CardState extends State<CardItem> {
                           ],
                         ),
                         // 创建一个默认样式的分割线
-                        const Divider(),
+                        const Divider(height: 1,thickness: 1,),
                         //正文
                         Row(
                           children: [

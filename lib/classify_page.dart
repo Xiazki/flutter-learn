@@ -25,11 +25,11 @@ class ClassifyPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<ClassifyPage> {
-  final String title = "分类";
+  final String title = "相册集";
 
   late List<ClassifyValue> values;
   int _counter = 0;
-  String _atitle = "分类";
+  String _atitle = "相册集";
 
   @override
   void initState() {
@@ -63,11 +63,11 @@ class _MyHomePageState extends State<ClassifyPage> {
       floatingActionButton: FloatingActionButton(
           elevation: 10,
           onPressed: _incrementCounter,
-          tooltip: 'Increment',
+          tooltip: '创建相册',
           shape: const CircleBorder(),
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           child: const Icon(
-            Icons.add,
+            Icons.add_to_photos_rounded,
             color: Colors.green,
           )), // This trailing comma makes auto-formatting nicer for build methods.
     );
