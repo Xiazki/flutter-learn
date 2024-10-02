@@ -5,6 +5,14 @@ import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/model/node_value.dart';
 
 class DataUtil {
+
+  static final  _random = Random.secure();
+
+ static String genUid(){
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final randomPart = _random.nextInt(1000);
+    return '$now-$randomPart';
+  }
   static List<NodeValue> getNodeValueByClassify(String key) {
     var entities = [
       Entity("1", "images/test.jpg", Entity.IMAGE),

@@ -1,11 +1,41 @@
+// buildscript {
+//     ext.kotlin_version = '1.7.10'
+//     repositories {
+//         maven {
+//             url 'https://maven.aliyun.com/repository/public/'
+//         }
+//         maven {
+//             url 'https://maven.aliyun.com/repository/public'
+//         }
+//         maven {
+//             url 'https://maven.aliyun.com/repository/gradle-plugin'
+//         }
+//         maven {
+//             url 'https://maven.aliyun.com/repository/google'
+//         }
+//         maven {
+//             url 'https://maven.aliyun.com/repository/central'
+//         }
+//         mavenLocal()
+//         mavenCentral()
+
+
+//     }
+
+//     dependencies {
+//         classpath 'com.android.tools.build:gradle:7.2.0'
+//         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//     }
+// }
+
 allprojects {
     repositories {
         maven{ url 'https://maven.aliyun.com/repository/google'} //修改
         maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'} //修改
         maven{ url 'https://maven.aliyun.com/repository/public'} //修改
         maven{ url 'https://maven.aliyun.com/repository/jcenter'} //修改
-        // google()
-        // mavenCentral()
+        google()
+        mavenCentral()
     }
 }
 

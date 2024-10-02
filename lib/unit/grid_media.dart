@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/util/auto_resize_image.dart';
@@ -22,7 +25,7 @@ class GridMedia extends StatelessWidget {
           child: Image(
               fit: BoxFit.cover,
               image: AutoResizeImage(
-                  imageProvider: AssetImage(entity.url),
+                  imageProvider: FileImage(File.fromRawPath(utf8.encode(entity.url))),
                   width: constructors.maxWidth,
                   height: constructors.maxHeight)),
         );

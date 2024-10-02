@@ -72,7 +72,11 @@ class _ImageState extends State<ImageItem> {
   }
 
   Future<void> selectAssets() async {
-    List<AssetEntity>? result = await AssetPicker.pickAssets(context);
+    
+    List<AssetEntity>? result = await AssetPicker.pickAssets(context,pickerConfig:AssetPickerConfig(
+      textDelegate: AssetPickerTextDelegate(),
+      maxAssets:1
+    ));
     if (result != null) {
       var assets = Set<AssetEntity>.from(result);
       print(assets.first);
@@ -87,14 +91,17 @@ class _ImageState extends State<ImageItem> {
     }
   }
 
-  Widget showSelectAssets() {
+  Widget showSelectAssets()  {
     Widget widget = ElevatedButton(
         onPressed: () {
           selectAssets();
         },
         child: const Text("选择图片"));
 
-    List<Widget> list = [widget];
+    List<Widget> list = [
+      SizedBox(height: 200,),
+      widget
+      ];
 
     Widget text = Text(_path ?? "");
     list.add(text);
@@ -103,7 +110,7 @@ class _ImageState extends State<ImageItem> {
       list.add(Image.file(File.fromRawPath(utf8.encode(_path!))));
     }
 
-    return Column(
+    return  Column(
       children: list,
     );
   }

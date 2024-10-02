@@ -1,5 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/model/entity.dart';
+import 'package:flutter_learn/unit/grid_media.dart';
+import 'package:flutter_learn/util/auto_resize_image.dart';
+import 'package:flutter_learn/util/data_util.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ClassifyAddPage extends StatefulWidget {
   List<Entity>? firstSelectedEntities;
@@ -45,7 +53,7 @@ class ClassifyAddState extends State<ClassifyAddPage> {
                 height: screenHeight * areaFactor,
                 child: Column(
                   children: [
-                    _buildSelectedItem(),
+                    _buildSelectedItem(_selectedEntities),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
                       child: _buildTitleItem(),
@@ -144,47 +152,115 @@ class ClassifyAddState extends State<ClassifyAddPage> {
     );
   }
 
-  Widget _buildSelectedItem() {
-    //  Widget addItem = GestureDetector(
-    //     onTap: () {
-    //       //todo
-    //     },
-    //     child: const Card(
-    //         margin: EdgeInsets.all(2.0),
-    //         child: Icon(
-    //           Icons.add,
-    //           color: Colors.grey,
-    //         )),
-    //   );
+  Widget _buildSelectedItem(List<Entity>? entities) {
+    List<Widget> list = [];
+    var addItemButton = SizedBox(
+      width: 200,
+      height: 200,
+      child: GestureDetector(
+          onTap: selectAssets,
+          child: const Card(
+            // color: Colors.grey,
+            margin: EdgeInsets.all(4.0),
+            child: Icon(
+              Icons.add_photo_alternate,
+              color: Colors.green,
+              size: 40,
+            ),
+          )),
+    );
+    if (entities == null) {
+      list.add(addItemButton);
+    } else {
+      for (var item in entities) {
+        list.add(SizedBox(
+            width: 200,
+            height: 200,
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constructors) {
+              return Container(
+                margin: const EdgeInsets.all(2.0),
+                // elevation: 5,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AutoResizeImage(
+                            imageProvider: FileImage(
+                                File.fromRawPath(utf8.encode(item.url))),
+                            width: constructors.maxWidth,
+                            height: constructors.maxHeight))),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: IconButton(
+                      onPressed: (){delete(item);},
+                      icon: const Icon(Icons.close,color: Colors.black54,),
+                      
+                      iconSize: 15,
+                      padding: const EdgeInsets.all(1.0),
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(Colors.red)),
+                    ),
+                  ),
+                ),
+              );
+            })));
+      }
+      if (entities.length < 9) {
+        list.add(addItemButton);
+      }
+    }
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: List.generate(8, (index) {
-          return SizedBox(
-            width: 200,
-            height: 200,
-            child: Card(
-              margin: const EdgeInsets.all(4.0),
-              child: Text("$index"),
-            ),
-          );
-        }),
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: list,
       ),
     );
-    // return GridView.builder(
-    //     itemCount: 9,
-    //     shrinkWrap: true,
-    //     gridDelegate:
-    //         SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-    //     itemBuilder: (context, index) {
-    //       return SizedBox(
-    //         width: 200,
-    //         height: 400,
-    //         child: Card(
-    //           margin: const EdgeInsets.all(4.0),
-    //           child: Text("$index"),
-    //         ),
-    //       );
-    //     });
+  }
+
+  void delete(Entity entity){
+      setState(() {
+        if(_selectedEntities!=null){
+          _selectedEntities!.remove(entity);
+        }
+      });
+  }
+
+  Future<void> selectAssets() async {
+    int limit = 9;
+    if (_selectedEntities != null) {
+      int c = _selectedEntities!.length;
+      limit = limit - c;
+    }
+    if (limit <= 0) {
+      return;
+    }
+    List<AssetEntity>? result = await AssetPicker.pickAssets(context,
+        pickerConfig: AssetPickerConfig(
+            textDelegate: const AssetPickerTextDelegate(),
+            maxAssets: limit,
+            requestType: RequestType.image));
+    if (result != null) {
+      var assets = Set<AssetEntity>.from(result);
+      List<Entity> selectValues = [];
+      for (var asset in assets) {
+        File? file = await asset.file;
+
+        if (file != null) {
+          selectValues.add(Entity(DataUtil.genUid(), file.path, Entity.IMAGE));
+        }
+      }
+      setState(() {
+        if (_selectedEntities == null) {
+          _selectedEntities = selectValues;
+        } else {
+          _selectedEntities!.addAll(selectValues);
+        }
+      });
+    }
   }
 }

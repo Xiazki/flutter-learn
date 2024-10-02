@@ -93,8 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 5.0,
         // backgroundColor: const Color.fromARGB(255, 249, 255, 245),
       ),
-      // body: pages[_currentIndex],
-      body: Center(child: ImageItem(),),
+      body: pages[_currentIndex],
     );
   }
 }
