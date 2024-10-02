@@ -3,7 +3,6 @@ import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/model/node_value.dart';
 import 'package:flutter_learn/unit/grid_media.dart';
 import 'package:flutter_learn/unit/media_view.dart';
-import 'package:flutter_learn/util/auto_resize_image.dart';
 import 'package:flutter_learn/util/data_util.dart';
 import 'package:interactiveviewer_gallery/hero_dialog_route.dart';
 import 'package:interactiveviewer_gallery/interactiveviewer_gallery.dart';
@@ -83,8 +82,16 @@ class _NodeCardState extends State<NodeCard> {
           initIndex: current,
           itemBuilder: (context, index, isFocus) {
             var entity = _allEntityValue[index];
-            NodeValue? nodeValue = DataUtil.getNodeValueByEntity(_allNodeValue,entity);
-            return ImageView(entity, nodeValue == null?"":nodeValue.desc);
+            NodeValue? nodeValue =
+                DataUtil.getNodeValueByEntity(_allNodeValue, entity);
+            if (entity.type == Entity.IMAGE) {
+              return ImageView(entity, nodeValue == null ? "" : nodeValue.desc);
+            } else {
+              return FlickVideoView(
+                entity: entity,
+              );
+              // return VideoView(entity);
+            }
           },
           onPageChanged: (int pageIndex) {
             // print("nell-pageIndex:$pageIndex");

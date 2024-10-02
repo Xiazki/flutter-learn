@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_learn/classify_page.dart';
+import 'package:flutter_learn/image_item.dart';
 import 'package:flutter_learn/map_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
@@ -57,10 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   List<Widget> pages = [const ClassifyPage(), const MapPage()];
 
-
   final List<BottomNavigationBarItem> _navigationItems = [
-    const BottomNavigationBarItem(icon: Icon(Icons.home),label: "首页"),
-    const BottomNavigationBarItem(icon: Icon(Icons.map),label: "地图"),
+    const BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
+    const BottomNavigationBarItem(icon: Icon(Icons.map), label: "地图"),
   ];
 
   void _onItemTapped(int index) {
@@ -79,7 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     // return ClassifyAddPage();
 
-
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -88,7 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 5.0,
         // backgroundColor: const Color.fromARGB(255, 249, 255, 245),
       ),
-      body: pages[_currentIndex],
+      // body: pages[_currentIndex],
+      body: Center(child: ImageItem(),),
     );
   }
 }

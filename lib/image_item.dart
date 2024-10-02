@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:external_path/external_path.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ImageItem extends StatefulWidget {
   @override
@@ -70,6 +71,43 @@ class _ImageState extends State<ImageItem> {
     }
   }
 
+  Future<void> selectAssets() async {
+    List<AssetEntity>? result = await AssetPicker.pickAssets(context);
+    if (result != null) {
+      var assets = Set<AssetEntity>.from(result);
+      print(assets.first);
+      AssetEntity asset = assets.first;
+      File? file = await asset.file;
+      if (file != null) {
+        print(file.path);
+        setState(() {
+          _path = file.path;
+        });
+      }
+    }
+  }
+
+  Widget showSelectAssets() {
+    Widget widget = ElevatedButton(
+        onPressed: () {
+          selectAssets();
+        },
+        child: const Text("选择图片"));
+
+    List<Widget> list = [widget];
+
+    Widget text = Text(_path ?? "");
+    list.add(text);
+
+    if (_path != null) {
+      list.add(Image.file(File.fromRawPath(utf8.encode(_path!))));
+    }
+
+    return Column(
+      children: list,
+    );
+  }
+
   Future<void> _getDcimDirectory() async {
     // Directory dcimDirectory = await ExternalPath.getDcimDirectory();
     // String dcimPath = dcimDirectory.path;
@@ -92,7 +130,7 @@ class _ImageState extends State<ImageItem> {
 
   @override
   Widget build(BuildContext context) {
-    return testDir();
+    return showSelectAssets();
     // if (_path == null) {
     //   return Column(
     //     children: [
@@ -117,17 +155,20 @@ class _ImageState extends State<ImageItem> {
     // }
   }
 
-  Widget testDir(){
-    if(dirs== null || dirs?.length == 0){
-        return ElevatedButton(onPressed: _getDcimDirectory, child: const Text("显示目录"));
-    }else {
+  Widget testDir() {
+    if (dirs == null || dirs?.length == 0) {
+      return ElevatedButton(
+          onPressed: _getDcimDirectory, child: const Text("显示目录"));
+    } else {
       List<Widget> list = [];
-      dirs!.forEach((file){
-        if(FileSystemEntity.isFileSync(file)){
-          list.add( Image.file(File.fromRawPath(utf8.encode(file))));
+      dirs!.forEach((file) {
+        if (FileSystemEntity.isFileSync(file)) {
+          list.add(Image.file(File.fromRawPath(utf8.encode(file))));
         }
       });
-      return ListView(children: list,);
+      return ListView(
+        children: list,
+      );
     }
   }
 }

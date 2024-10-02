@@ -8,37 +8,37 @@ class DataUtil {
   static List<NodeValue> getNodeValueByClassify(String key) {
     var entities = [
       Entity("1", "images/test.jpg", Entity.IMAGE),
-      Entity("2", "images/test2.jpg", Entity.VIDEO),
+      Entity("2", "images/test2.jpg", Entity.VIDEO,videUrl: "images/h.mp4"),
       Entity("3", "images/test.jpg", Entity.IMAGE),
-      Entity("4", "images/test.jpg", Entity.VIDEO),
+      Entity("4", "images/test2.jpg", Entity.VIDEO,videUrl: "images/v.mp4"),
       Entity("5", "images/test2.jpg", Entity.IMAGE),
-      Entity("6", "images/test.jpg", Entity.VIDEO),
+      Entity("6", "images/test.jpg", Entity.VIDEO,videUrl: "images/v.mp4"),
       Entity("7", "images/test.jpg", Entity.IMAGE),
       Entity("8", "images/test2.jpg", Entity.IMAGE)
     ];
     var entities1 = [
       Entity("a", "images/test.jpg", Entity.IMAGE),
-      Entity("b", "images/test2.jpg", Entity.VIDEO),
+      Entity("b", "images/test.jpg", Entity.VIDEO,videUrl: "images/v.mp4"),
       Entity("c", "images/test.jpg", Entity.IMAGE),
-      Entity("d", "images/test.jpg", Entity.VIDEO),
+      Entity("d", "images/test2.jpg", Entity.VIDEO,videUrl: "images/h.mp4"),
       Entity("e", "images/test2.jpg", Entity.IMAGE),
-      Entity("f", "images/test.jpg", Entity.VIDEO),
+      Entity("f", "images/test2.jpg", Entity.VIDEO,videUrl: "images/h.mp4"),
     ];
     var entities2 = [
       Entity("a2", "images/test.jpg", Entity.IMAGE),
-      Entity("b2", "images/test2.jpg", Entity.VIDEO),
+      Entity("b2", "images/test2.jpg", Entity.VIDEO,videUrl: "images/h.mp4"),
       Entity("c2", "images/test.jpg", Entity.IMAGE),
-      Entity("d2", "images/test.jpg", Entity.VIDEO),
+      Entity("d2", "images/test2.jpg", Entity.VIDEO,videUrl: "images/v.mp4"),
       Entity("e2", "images/test2.jpg", Entity.IMAGE),
-      Entity("f2", "images/test.jpg", Entity.VIDEO),
+      Entity("f2", "images/test.jpg", Entity.VIDEO,videUrl: "images/h.mp4"),
     ];
     var entities3 = [
       Entity("a3", "images/test.jpg", Entity.IMAGE),
-      Entity("b3", "images/test2.jpg", Entity.VIDEO),
-      Entity("c3", "images/test.jpg", Entity.IMAGE),
-      Entity("d3", "images/test.jpg", Entity.VIDEO),
+      Entity("b3", "images/test2.jpg", Entity.VIDEO,videUrl: "images/h.mp4"),
+      Entity("c3", "images/test2.jpg", Entity.IMAGE),
+      Entity("d3", "images/test.jpg", Entity.VIDEO,videUrl: "images/v.mp4"),
       Entity("e3", "images/test2.jpg", Entity.IMAGE),
-      Entity("f3", "images/test.jpg", Entity.VIDEO),
+      Entity("f3", "images/test2.jpg", Entity.VIDEO,videUrl: "images/v.mp4"),
     ];
     return [
       NodeValue("node1", entities, "第一天，我们去了这里😄😄"),
