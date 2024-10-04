@@ -46,8 +46,8 @@ class ClassifyAddState extends State<ClassifyAddPage> {
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start, // 确保主轴对齐方式正确
-            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.start, // 确保主轴对齐方式正确
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: screenHeight * areaFactor,
@@ -176,38 +176,94 @@ class ClassifyAddState extends State<ClassifyAddPage> {
         list.add(SizedBox(
             width: 200,
             height: 200,
-            child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constructors) {
-              return Container(
-                margin: const EdgeInsets.all(2.0),
-                // elevation: 5,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AutoResizeImage(
-                            imageProvider: FileImage(
-                                File.fromRawPath(utf8.encode(item.url))),
-                            width: constructors.maxWidth,
-                            height: constructors.maxHeight))),
-                child: Align(
+            child: Stack(
+              children: [
+                LayoutBuilder(builder:
+                    (BuildContext context, BoxConstraints constructors) {
+                  return Container(
+                    margin: const EdgeInsets.all(2.0),
+                    // elevation: 5,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AutoResizeImage(
+                                imageProvider: FileImage(
+                                    File.fromRawPath(utf8.encode(item.url))),
+                                width: constructors.maxWidth,
+                                height: constructors.maxHeight))),
+                  );
+                }),
+                Align(
                   alignment: Alignment.topRight,
                   child: SizedBox(
-                    width: 20,
                     height: 20,
+                    width: 20,
+                    
                     child: IconButton(
-                      onPressed: (){delete(item);},
-                      icon: const Icon(Icons.close,color: Colors.black54,),
-                      
-                      iconSize: 15,
-                      padding: const EdgeInsets.all(1.0),
-                      style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(Colors.red)),
+                      padding: const EdgeInsets.all(1),
+                      onPressed: () {
+                        delete(item);
+                      },
+                      style: const ButtonStyle(
+                        // alignment: Alignment.topLeft,
+                        backgroundColor: WidgetStatePropertyAll(Colors.red),
+                      ),
+                      icon: const Icon(Icons.close,),
+                      iconSize: 12,
                     ),
                   ),
-                ),
-              );
-            })));
+                )
+              ],
+            )
+            // child: LayoutBuilder(
+            //     builder: (BuildContext context, BoxConstraints constructors) {
+            //   return Container(
+            //     margin: const EdgeInsets.all(2.0),
+            //     // elevation: 5,
+            //     decoration: BoxDecoration(
+            //         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            //         image: DecorationImage(
+            //             fit: BoxFit.cover,
+            //             image: AutoResizeImage(
+            //                 imageProvider: FileImage(
+            //                     File.fromRawPath(utf8.encode(item.url))),
+            //                 width: constructors.maxWidth,
+            //                 height: constructors.maxHeight))),
+            //     child: Align(
+            //       alignment: Alignment.topRight,
+            //       child: SizedBox(
+            //         // alignment: Alignment.topRight,
+            //         width: 40,
+            //         height: 20,
+            //         child: ElevatedButton(
+            //           onPressed: () {
+            //             delete(item);
+            //           },
+            //           style: ElevatedButton.styleFrom(
+            //             backgroundColor: Colors.red,
+            //             // padding: EdgeInsets.symmetric(
+            //             //     horizontal: 20.0), // 可选，调整按钮的内边距
+            //             shape: const RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.only(
+            //                   topRight: Radius.circular(8),
+            //                   bottomLeft: Radius.circular(8)), // 可选，设置按钮的圆角
+            //             ),
+            //           ),
+            //           child: const Align(
+            //             alignment: Alignment.center,
+            //             child:  Text(
+            //               "删除",
+            //               style: TextStyle(fontSize: 10),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   );
+            // })
+            ));
       }
       if (entities.length < 9) {
         list.add(addItemButton);
@@ -217,17 +273,18 @@ class ClassifyAddState extends State<ClassifyAddPage> {
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: list,
       ),
     );
   }
 
-  void delete(Entity entity){
-      setState(() {
-        if(_selectedEntities!=null){
-          _selectedEntities!.remove(entity);
-        }
-      });
+  void delete(Entity entity) {
+    setState(() {
+      if (_selectedEntities != null) {
+        _selectedEntities!.remove(entity);
+      }
+    });
   }
 
   Future<void> selectAssets() async {
