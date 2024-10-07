@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_learn/classify_page.dart';
 import 'package:flutter_learn/image_item.dart';
 import 'package:flutter_learn/map_page.dart';
+import 'package:flutter_learn/state/data_state.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,7 +12,10 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (ctx) => DataState())],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

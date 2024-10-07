@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learn/add/classify_add_page.dart';
 import 'package:flutter_learn/card.dart';
 import 'package:flutter_learn/model/classify_value.dart';
+import 'package:flutter_learn/state/data_state.dart';
 import 'package:flutter_learn/util/data_util.dart';
+import 'package:provider/provider.dart';
 
 class ClassifyPage extends StatefulWidget {
   const ClassifyPage({super.key});
@@ -27,14 +29,12 @@ class ClassifyPage extends StatefulWidget {
 class _MyHomePageState extends State<ClassifyPage> {
   final String title = "相册集";
 
-  late List<ClassifyValue> values;
-  int _counter = 0;
-  String _atitle = "相册集";
+  final String _atitle = "相册集";
 
-  @override
-  void initState() {
-    values = DataUtil.listTemp();
-  }
+  // @override
+  // void initState() {
+  //   values = DataUtil.listTemp();
+  // }
 
   void _incrementCounter() {
     Navigator.push(
@@ -49,16 +49,45 @@ class _MyHomePageState extends State<ClassifyPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    DataState dataState = Provider.of<DataState>(context);
+    var values = dataState.classifyValues;
+    Widget? body;
+    if (values.isEmpty) {
+      if (!dataState.init) {
+        body = const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else {
+        body = const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("暂无数据，请点击 ",style: TextStyle(color: Colors.grey),),
+              Icon(
+                Icons.add_to_photos,
+                color: Colors.green,
+                size: 16,
+              ),
+              Text(" 创建相册",style: TextStyle(color: Colors.grey),)
+            ],
+          ),
+        );
+      }
+    }
+
+    body ??= ListView.builder(
+        itemCount: values.length,
+        itemBuilder: (context, index) {
+          return Center(child: CardItem(classifyValue: values[index]));
+        });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_atitle),
         // backgroundColor: Colors.white.withOpacity(0.3),
       ),
-      body: ListView.builder(
-          itemCount: values.length,
-          itemBuilder: (context, index) {
-            return Center(child: CardItem(classifyValue: values[index]));
-          }),
+
+      body: body,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
           elevation: 10,

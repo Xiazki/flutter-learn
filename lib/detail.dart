@@ -21,6 +21,7 @@ class _DetailState extends State<Detail> {
 
   @override
   void initState() {
+    super.initState();
     values = DataUtil.getNodeValueByClassify(widget.classifyValue.title!);
   }
 

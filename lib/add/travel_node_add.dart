@@ -1,27 +1,36 @@
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/model/node_value.dart';
 import 'package:flutter_learn/unit/grid_media.dart';
 import 'package:flutter_learn/util/data_util.dart';
 import 'package:flutter_learn/util/default.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class TravelNodeAdd extends StatefulWidget {
-  const TravelNodeAdd({super.key});
+
+  
+  TravelNodeAdd({super.key,this.nodeValue});
+
+  NodeValue? nodeValue;
 
   @override
   State<StatefulWidget> createState() => TravelNodeAddState();
 }
 
 class TravelNodeAddState extends State<TravelNodeAdd> {
-  // List<Entity>? _entities;
 
   NodeValue? nodeValue;
+
+  List<Entity>? _selectedEntities;
 
   double areaFactor = 0.75;
   double buttonFactor = 0.1;
 
   @override
-  void initState() {
+  void initState() {  
+    super.initState();
     nodeValue = DataUtil.getNodeValueByClassify("key").first;
   }
 
@@ -97,22 +106,48 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
     List<Widget> body = [];
     Widget addItem = GestureDetector(
       onTap: () {
-        //todo
+        selectAssets();
       },
       child: const Card(
-        // elevation: 5,
-        
+          // elevation: 5,
           margin: EdgeInsets.all(2.0),
           // color: Colors.grey,
           child: Icon(
             Icons.add_photo_alternate,
-            color: Colors.grey,
+            color: Colors.green,
           )),
     );
-    if (nodeValue != null) {
-      int count = nodeValue!.entities.length;
+    if (_selectedEntities != null) {
+      int count = _selectedEntities!.length;
       body = List.generate(count, (index) {
-        return GridMedia(entity: nodeValue!.entities[index]);
+        var item =  _selectedEntities![index];
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            GridMedia(entity: item),
+            Align(
+                  alignment: Alignment.topRight,
+                  child: SizedBox(
+                    height: 15,
+                    width: 15,
+                    child: IconButton(
+                      padding: const EdgeInsets.all(1),
+                      onPressed: () {
+                        delete(item);
+                      },
+                      style: const ButtonStyle(
+                        // alignment: Alignment.topLeft,
+                        backgroundColor: WidgetStatePropertyAll(Colors.red),
+                      ),
+                      icon: const Icon(
+                        Icons.close,
+                      ),
+                      iconSize: 12,
+                    ),
+                  ),
+                )
+            ],
+        );
       });
     }
     body.add(addItem);
@@ -161,5 +196,61 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
         )
       ],
     );
+  }
+
+  Future<void> selectAssets() async {
+    int limit = 9;
+    if (_selectedEntities != null) {
+      int c = _selectedEntities!.length;
+      limit = limit - c;
+    }
+    if (limit <= 0) {
+      return;
+    }
+    List<AssetEntity>? result = await AssetPicker.pickAssets(context,
+        pickerConfig: const AssetPickerConfig(
+          textDelegate: AssetPickerTextDelegate(),
+        ));
+    if (result != null) {
+      
+      var assets = Set<AssetEntity>.from(result);
+      List<Entity> selectValues = [];
+      for (var asset in assets) {
+        File? file = await asset.file;
+        if (file != null) {
+          if(asset.type == AssetType.image){
+            selectValues.add(Entity(DataUtil.genUid(), file.path, Entity.IMAGE));
+          }else if(asset.type == AssetType.video){
+            // asset.
+            var value =  Entity(DataUtil.genUid(), file.path, Entity.VIDEO);
+            value.videUrl = file.path;
+            // VideoPlayerController.
+          
+                // 使用video_player插件来获取视频的元数据
+            Duration duration = asset.videoDuration;
+            var thumbnail =  await asset.thumbnailData;
+            value.duration = duration;
+            value.thumbnailData = thumbnail;
+            selectValues.add(value);
+          }
+          
+        }
+      }
+      setState(() {
+        if (_selectedEntities == null) {
+          _selectedEntities = selectValues;
+        } else {
+          _selectedEntities!.addAll(selectValues);
+        }
+      });
+    }
+  }
+
+    void delete(Entity entity) {
+    setState(() {
+      if (_selectedEntities != null) {
+        _selectedEntities!.remove(entity);
+      }
+    });
   }
 }

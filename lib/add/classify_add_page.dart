@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/model/classify_value.dart';
 import 'package:flutter_learn/model/entity.dart';
-import 'package:flutter_learn/unit/grid_media.dart';
+import 'package:flutter_learn/state/data_state.dart';
 import 'package:flutter_learn/util/auto_resize_image.dart';
 import 'package:flutter_learn/util/data_util.dart';
+import 'package:provider/provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ClassifyAddPage extends StatefulWidget {
@@ -23,6 +24,18 @@ class ClassifyAddState extends State<ClassifyAddPage> {
   double buttonFactor = 0.1;
 
   List<Entity>? _selectedEntities;
+
+  bool loading = false;
+
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    titleController.dispose();
+    descController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,20 +101,74 @@ class ClassifyAddState extends State<ClassifyAddPage> {
     );
   }
 
+  Future<void> saveOrUpdate(DataState dataState) async {
+    if (loading) {
+      return;
+    }
+    var title = titleController.text;
+    var desc = descController.text;
+    if (title == '') {
+      showCreateAlertDialog("😲标题不能为空");
+      return;
+    }
+    if (_selectedEntities == null || _selectedEntities!.isEmpty) {
+      showCreateAlertDialog("😲请选择几张图片吧");
+      return;
+    }
+
+    var imageUrl = _selectedEntities![0].url;
+
+    ClassifyValue classify = ClassifyValue(
+        DataUtil.genUid(), title, imageUrl, desc, "2024年10月1日", "2024年10月1日");
+    classify.imageCount = _selectedEntities?.length ?? 0;
+
+    setState(() {
+      loading = true;
+    });
+    try {
+      await dataState.addClassify(classify);
+      setState(() {
+        loading = false;
+      });
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    } catch (e) {
+      showCreateAlertDialog("❗️出现错误");
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  void showCreateAlertDialog(String text) {
+    showDialog(
+        // ignore: use_build_context_synchronously
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(text),
+          );
+        });
+  }
+
   Widget _buildCreate() {
     return Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(400, 50),
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0))),
-                onPressed: () {},
-                child: const Text("创建相册"))));
+            child: Consumer<DataState>(
+              builder: (context, dataState, child) => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(400, 50),
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0))),
+                  onPressed: () {
+                    saveOrUpdate(dataState);
+                  },
+                  child: const Text("创建相册")),
+            )));
   }
 
   Widget _buildLocationItem() {
@@ -128,10 +195,11 @@ class ClassifyAddState extends State<ClassifyAddPage> {
   }
 
   Widget _buildTitleItem() {
-    return const SizedBox(
+    return SizedBox(
       height: 50,
       child: TextField(
-        decoration: InputDecoration(
+        controller: titleController,
+        decoration: const InputDecoration(
             hintText: "请写一个标题（少于15个字）",
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
@@ -140,11 +208,12 @@ class ClassifyAddState extends State<ClassifyAddPage> {
   }
 
   Widget _buildContentItem() {
-    return const SizedBox(
+    return SizedBox(
       height: 200,
       child: TextField(
-        maxLines: 100,
-        decoration: InputDecoration(
+        controller: descController,
+        maxLines: 200,
+        decoration: const InputDecoration(
             hintText: "添加正文，说一些你想说的话吧",
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
@@ -200,70 +269,23 @@ class ClassifyAddState extends State<ClassifyAddPage> {
                   child: SizedBox(
                     height: 20,
                     width: 20,
-                    
                     child: IconButton(
                       padding: const EdgeInsets.all(1),
                       onPressed: () {
                         delete(item);
                       },
                       style: const ButtonStyle(
-                        // alignment: Alignment.topLeft,
                         backgroundColor: WidgetStatePropertyAll(Colors.red),
                       ),
-                      icon: const Icon(Icons.close,),
+                      icon: const Icon(
+                        Icons.close,
+                      ),
                       iconSize: 12,
                     ),
                   ),
                 )
               ],
-            )
-            // child: LayoutBuilder(
-            //     builder: (BuildContext context, BoxConstraints constructors) {
-            //   return Container(
-            //     margin: const EdgeInsets.all(2.0),
-            //     // elevation: 5,
-            //     decoration: BoxDecoration(
-            //         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            //         image: DecorationImage(
-            //             fit: BoxFit.cover,
-            //             image: AutoResizeImage(
-            //                 imageProvider: FileImage(
-            //                     File.fromRawPath(utf8.encode(item.url))),
-            //                 width: constructors.maxWidth,
-            //                 height: constructors.maxHeight))),
-            //     child: Align(
-            //       alignment: Alignment.topRight,
-            //       child: SizedBox(
-            //         // alignment: Alignment.topRight,
-            //         width: 40,
-            //         height: 20,
-            //         child: ElevatedButton(
-            //           onPressed: () {
-            //             delete(item);
-            //           },
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: Colors.red,
-            //             // padding: EdgeInsets.symmetric(
-            //             //     horizontal: 20.0), // 可选，调整按钮的内边距
-            //             shape: const RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.only(
-            //                   topRight: Radius.circular(8),
-            //                   bottomLeft: Radius.circular(8)), // 可选，设置按钮的圆角
-            //             ),
-            //           ),
-            //           child: const Align(
-            //             alignment: Alignment.center,
-            //             child:  Text(
-            //               "删除",
-            //               style: TextStyle(fontSize: 10),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   );
-            // })
-            ));
+            )));
       }
       if (entities.length < 9) {
         list.add(addItemButton);

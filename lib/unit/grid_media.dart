@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/model/entity.dart';
 import 'package:flutter_learn/util/auto_resize_image.dart';
+import 'package:flutter_learn/util/default.dart';
 
 class GridMedia extends StatelessWidget {
   
@@ -43,7 +44,7 @@ class GridMedia extends StatelessWidget {
               return Image(
                   fit: BoxFit.cover,
                   image: AutoResizeImage(
-                      imageProvider: AssetImage(entity.url),
+                      imageProvider: MemoryImage(entity.thumbnailData!),
                       width: constructors.maxWidth,
                       height: constructors.maxHeight));
             }),
@@ -54,8 +55,9 @@ class GridMedia extends StatelessWidget {
             ),
             Container(
               alignment: Alignment.bottomRight,
+              margin: const EdgeInsetsDirectional.only(end: 4),
               child: Text(
-                "1:20",
+                DefaultUtil.formatDurationToHMS(entity.duration!),
                 style: TextStyle(
                     color: Colors.white.withOpacity(0.8), fontSize: 12),
               ),

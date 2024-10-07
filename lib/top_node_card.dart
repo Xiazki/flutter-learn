@@ -8,6 +8,7 @@ import 'package:flutter_learn/util/data_util.dart';
 import 'package:interactiveviewer_gallery/hero_dialog_route.dart';
 import 'package:interactiveviewer_gallery/interactiveviewer_gallery.dart';
 
+// ignore: must_be_immutable
 class TopNodeCard extends StatefulWidget {
   ClassifyValue classifyValue;
 
@@ -22,6 +23,7 @@ class _TopCardState extends State<TopNodeCard> {
 
   @override
   void initState() {
+    super.initState();
     stateValue = widget.classifyValue;
   }
 
@@ -100,7 +102,6 @@ class _TopCardState extends State<TopNodeCard> {
           initIndex: index,
           itemBuilder: (context, index, isFocus) {
             var entity = stateValue.topEntities![index];
-
             return ImageView(entity, "");
           },
           onPageChanged: (int pageIndex) {

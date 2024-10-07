@@ -1,11 +1,12 @@
 import 'package:flutter_learn/model/entity.dart';
 
 class ClassifyValue {
-  ClassifyValue(String this.title, String this.imageUrl, String this.des,
-      String this.startTime, String this.endTime);
+  ClassifyValue(this.id, this.title, this.imageUrl, this.des, this.startTime,
+      this.endTime);
 
+  String id;
   //标题
-  String? title;
+  String title;
   //封面图
   String? imageUrl;
   //详情
@@ -16,7 +17,42 @@ class ClassifyValue {
   String? endTime;
   //精选图集
   List<Entity>? topEntities;
+  int? imageCount = 0;
+  int? videCount = 0;
 
   getTitle() => title;
   getImageUrls() => imageUrl;
+
+  factory ClassifyValue.fromJson(Map<String, dynamic> jsonObject) {
+    var id = jsonObject["id"] ?? '';
+    var title = jsonObject["title"];
+    var imageUrl = jsonObject["imageUrl"];
+    var des = jsonObject["des"];
+    var startTime = jsonObject["startTime"];
+    var endTime = jsonObject["endTime"];
+    List<dynamic>? topEntitiesJsonObj = jsonObject["topEntities"];
+    List<Entity>? topEntities;
+    if (topEntitiesJsonObj != null) {
+      topEntities = topEntitiesJsonObj.map((e) => Entity.formJson(e)).toList();
+    }
+    ClassifyValue classifyValue =
+        ClassifyValue(id, title, imageUrl, des, startTime, endTime);
+    classifyValue.topEntities = topEntities;
+    classifyValue.imageCount = jsonObject["imageCount"];
+    classifyValue.videCount = jsonObject["videCount"];
+    return classifyValue;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "imageUrl": imageUrl,
+      "des": des,
+      "startTime": startTime,
+      "endTime": endTime,
+      "topEntities": topEntities?.map((e) => e.toJson()).toList(),
+      "imageCount": imageCount,
+      "videCount": videCount
+    };
+  }
 }

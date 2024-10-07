@@ -8,6 +8,7 @@ import 'package:interactiveviewer_gallery/hero_dialog_route.dart';
 import 'package:interactiveviewer_gallery/interactiveviewer_gallery.dart';
 
 //旅游节点卡片
+// ignore: must_be_immutable
 class NodeCard extends StatefulWidget {
   NodeValue nodeValue;
   List<NodeValue> allNodeValue;
@@ -26,13 +27,12 @@ class NodeCard extends StatefulWidget {
 class _NodeCardState extends State<NodeCard> {
   late List<Entity> _allEntityValue;
   late List<NodeValue> _allNodeValue;
-  late int _indexOfNode;
 
   @override
   void initState() {
+    super.initState();
     _allEntityValue = DataUtil.getAllEntities(widget.allNodeValue);
     _allNodeValue = widget.allNodeValue;
-    _indexOfNode = widget.indexOfNode;
   }
 
   @override
