@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_learn/classify_page.dart';
 import 'package:flutter_learn/map_page.dart';
 import 'package:flutter_learn/state/data_state.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -24,6 +25,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('zh', 'CN'),
+        Locale('en', 'US'),
+      ],
+      locale: const Locale('zh', 'CN'),
       theme: ThemeData(
         // This is the theme of your application.
         //

@@ -32,6 +32,9 @@ class ClassifyAddState extends State<ClassifyAddPage> {
 
   bool loading = false;
 
+  DateTime? startTime;
+  DateTime? endTime;
+
   final titleController = TextEditingController();
   final descController = TextEditingController();
 
@@ -45,6 +48,8 @@ class ClassifyAddState extends State<ClassifyAddPage> {
       edit = true;
       titleController.text = existed.title;
       descController.text = existed.des ?? '';
+      startTime = existed.getStartDateTime();
+      endTime = existed.getEndDateTime();
     }
   }
 
@@ -103,7 +108,7 @@ class ClassifyAddState extends State<ClassifyAddPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                      child: _buildLocationItem(),
+                      child: _buildTimeItem(),
                     )
                   ],
                 ),
@@ -136,9 +141,14 @@ class ClassifyAddState extends State<ClassifyAddPage> {
 
     var imageUrl = _selectedEntities![0].url;
 
-    ClassifyValue classify = ClassifyValue(edit ? id! : DataUtil.genUid(),
-        title, imageUrl, desc, "2024年10月1日", "2024年10月1日");
+    ClassifyValue classify = ClassifyValue(
+        edit ? id! : DataUtil.genUid(), title,
+        imageUrl: imageUrl, des: desc);
     classify.imageCount = _selectedEntities?.length ?? 0;
+    classify.topEntities = _selectedEntities;
+
+    classify.startTime = startTime?.toIso8601String();
+    classify.endTime = endTime?.toIso8601String();
 
     setState(() {
       loading = true;
@@ -192,6 +202,41 @@ class ClassifyAddState extends State<ClassifyAddPage> {
                   },
                   child: Text(edit ? "修改相册" : "创建相册")),
             )));
+  }
+
+  Future<void> selectStartDateTime() async {
+    var selectRange = await showDateRangePicker(
+        context: context, firstDate: DateTime(2010), lastDate: DateTime(2200));
+    setState(() {
+      startTime = selectRange?.start;
+      endTime = selectRange?.end;
+    });
+  }
+
+  Widget _buildTimeItem() {
+    List<Widget> list = [
+      const Icon(
+        Icons.calendar_month,
+        color: Colors.green,
+        size: 20,
+      ),
+      const SizedBox(width: 4.0),
+    ];
+    String text = "选择时间范围";
+    if (startTime != null && endTime != null) {
+      text =
+          '${startTime!.year}年${startTime!.month}月${startTime!.day}日 - ${endTime!.year}年${endTime!.month}月${endTime!.day}日';
+    }
+
+    list.add(TextButton(
+        onPressed: () {
+          selectStartDateTime();
+        },
+        child: Text(text)));
+
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.start, // 左对齐
+        children: list);
   }
 
   Widget _buildLocationItem() {
