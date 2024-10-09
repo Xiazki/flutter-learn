@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/model/classify_value.dart';
@@ -40,7 +43,7 @@ class _TopCardState extends State<TopNodeCard> {
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
         child: Text(
-          "${stateValue.startTime ?? ""}-${stateValue.endTime ?? ""}",
+          stateValue.getTimeRange(),
           style: const TextStyle(color: Colors.grey),
         ),
       ),
@@ -73,21 +76,22 @@ class _TopCardState extends State<TopNodeCard> {
     return list.map((entity) {
       return Container(
         margin: const EdgeInsets.all(5.0),
-        child:GestureDetector(
-          onTap: ()=>_openGallery(entity),
+        child: GestureDetector(
+          onTap: () => _openGallery(entity),
           child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-          child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constructors) {
-            return Image(
-                fit: BoxFit.cover,
-                image: AutoResizeImage(
-                    imageProvider: AssetImage(entity.url),
-                    width: constructors.maxWidth,
-                    height: constructors.maxHeight));
-          }),
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constructors) {
+              return Image(
+                  fit: BoxFit.cover,
+                  image: AutoResizeImage(
+                      imageProvider:
+                          FileImage(File.fromRawPath(utf8.encode(entity.url))),
+                      width: constructors.maxWidth,
+                      height: constructors.maxHeight));
+            }),
+          ),
         ),
-        ) ,
       );
     }).toList();
   }

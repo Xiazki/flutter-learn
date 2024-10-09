@@ -56,17 +56,26 @@ class ClassifyValue {
     };
   }
 
-  DateTime? getStartDateTime(){
-    if(startTime!=null){
+  DateTime? getStartDateTime() {
+    if (startTime != null) {
       return DateTime.parse(startTime!);
     }
     return null;
   }
 
-    DateTime? getEndDateTime(){
-    if(endTime!=null){
+  DateTime? getEndDateTime() {
+    if (endTime != null) {
       return DateTime.parse(endTime!);
     }
     return null;
+  }
+
+  String getTimeRange() {
+    if (this.startTime == null) {
+      return '';
+    }
+    var startTime = getStartDateTime();
+    var endTime = getEndDateTime();
+    return '${startTime!.year}年${startTime!.month}月${startTime!.day}日 - ${endTime!.year}年${endTime!.month}月${endTime!.day}日';
   }
 }
