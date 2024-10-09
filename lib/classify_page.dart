@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/add/classify_add_page.dart';
 import 'package:flutter_learn/card.dart';
-import 'package:flutter_learn/model/classify_value.dart';
 import 'package:flutter_learn/state/data_state.dart';
-import 'package:flutter_learn/util/data_util.dart';
 import 'package:provider/provider.dart';
 
 class ClassifyPage extends StatefulWidget {

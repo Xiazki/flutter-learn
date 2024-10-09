@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_learn/classify_page.dart';
-import 'package:flutter_learn/image_item.dart';
 import 'package:flutter_learn/map_page.dart';
 import 'package:flutter_learn/state/data_state.dart';
 import 'package:provider/provider.dart';

@@ -21,6 +21,17 @@ class DataState with ChangeNotifier {
     notifyListeners();
   }
 
+ Future<void> editClassify(ClassifyValue classify) async{
+    for(int i = 0;i<classifyValues.length;i++){
+      if(classifyValues[i].id == classify.id){
+        classifyValues[i] = classify;
+        break;
+      }
+    }
+    await DataUtil.saveClassify(classifyValues);
+    notifyListeners();
+  }
+
  Future<void> addClassify(ClassifyValue classify) async{
     var newClassifyList =  await DataUtil.insertClassifyFrist(classifyValues, classify);
     classifyValues = newClassifyList;

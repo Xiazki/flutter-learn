@@ -8,6 +8,7 @@ import 'package:flutter_learn/util/data_util.dart';
 import 'package:flutter_learn/util/default.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
+// ignore: must_be_immutable
 class TravelNodeAdd extends StatefulWidget {
 
   

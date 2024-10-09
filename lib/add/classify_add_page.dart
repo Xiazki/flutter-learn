@@ -10,10 +10,13 @@ import 'package:flutter_learn/util/data_util.dart';
 import 'package:provider/provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
+// ignore: must_be_immutable
 class ClassifyAddPage extends StatefulWidget {
+  ClassifyValue? classifyValue;
+
   List<Entity>? firstSelectedEntities;
 
-  ClassifyAddPage({super.key});
+  ClassifyAddPage({super.key, this.classifyValue});
 
   @override
   State<StatefulWidget> createState() => ClassifyAddState();
@@ -24,11 +27,26 @@ class ClassifyAddState extends State<ClassifyAddPage> {
   double buttonFactor = 0.1;
 
   List<Entity>? _selectedEntities;
+  String? id;
+  bool edit = false;
 
   bool loading = false;
 
   final titleController = TextEditingController();
   final descController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    var existed = widget.classifyValue;
+    if (existed != null) {
+      id = existed.id;
+      _selectedEntities = existed.topEntities;
+      edit = true;
+      titleController.text = existed.title;
+      descController.text = existed.des ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -118,15 +136,20 @@ class ClassifyAddState extends State<ClassifyAddPage> {
 
     var imageUrl = _selectedEntities![0].url;
 
-    ClassifyValue classify = ClassifyValue(
-        DataUtil.genUid(), title, imageUrl, desc, "2024年10月1日", "2024年10月1日");
+    ClassifyValue classify = ClassifyValue(edit ? id! : DataUtil.genUid(),
+        title, imageUrl, desc, "2024年10月1日", "2024年10月1日");
     classify.imageCount = _selectedEntities?.length ?? 0;
 
     setState(() {
       loading = true;
     });
     try {
-      await dataState.addClassify(classify);
+      if (edit) {
+        await dataState.editClassify(classify);
+      } else {
+        await dataState.addClassify(classify);
+      }
+
       setState(() {
         loading = false;
       });
@@ -167,7 +190,7 @@ class ClassifyAddState extends State<ClassifyAddPage> {
                   onPressed: () {
                     saveOrUpdate(dataState);
                   },
-                  child: const Text("创建相册")),
+                  child: Text(edit ? "修改相册" : "创建相册")),
             )));
   }
 
