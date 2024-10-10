@@ -41,17 +41,16 @@ class DataUtil {
     var file = File(path);
     file.writeAsStringSync(
         jsonEncode(saveList.map((e) => e.toJson()).toList()));
-    
+
     return saveList;
   }
 
-  static Future<void> saveClassify(List<ClassifyValue> saveList) async{
+  static Future<void> saveClassify(List<ClassifyValue> saveList) async {
     var dir = await getApplicationDocumentsDirectory();
     var path = '${dir.path}/$classifyJsonFile';
     var file = File(path);
     file.writeAsStringSync(
         jsonEncode(saveList.map((e) => e.toJson()).toList()));
-    
   }
 
   static Future<Map<String, List<NodeValue>>> readAllNode() async {
@@ -71,16 +70,52 @@ class DataUtil {
     });
   }
 
-  static Future<void> insertNodeFrist(Map<String, List<NodeValue>> map,
-      String classifyId, NodeValue insert) async {
+  static Future<Map<String, List<NodeValue>>> insertNodeFrist(
+      Map<String, List<NodeValue>> map,
+      String classifyId,
+      NodeValue insert) async {
     var saveList = map[classifyId] ?? [];
-    saveList.insert(0, insert);
+    saveList.add(insert);
+
     var dir = await getApplicationDocumentsDirectory();
-    var path = "$dir/$nodeJsonFile";
+    var path = "${dir.path}/$nodeJsonFile";
+    var file = File(path);
+    map[classifyId] = saveList;
+    var saveMap =
+        map.map((k, v) => MapEntry(k, v.map((e) => e.toJson()).toList()));
+    file.writeAsStringSync(jsonEncode(saveMap));
+    return map;
+  }
+
+  static Future<void> saveNodeMap(Map<String, List<NodeValue>> map) async {
+    var dir = await getApplicationDocumentsDirectory();
+    var path = "${dir.path}/$nodeJsonFile";
     var file = File(path);
     var saveMap =
         map.map((k, v) => MapEntry(k, v.map((e) => e.toJson()).toList()));
     file.writeAsStringSync(jsonEncode(saveMap));
+  }
+
+  static Future<Map<String, List<NodeValue>>> deleteNode(
+      Map<String, List<NodeValue>> map,
+      String classifyId,
+      NodeValue node) async {
+    var nodeList = map[classifyId];
+    if (nodeList == null) {
+      return map;
+    }
+    NodeValue? deleteItem;
+    for (var element in nodeList) {
+      if (node.id == element.id) {
+        deleteItem = element;
+      }
+    }
+    if (deleteItem != null) {
+      nodeList.remove(deleteItem);
+    }
+    map[classifyId] = nodeList;
+    saveNodeMap(map);
+    return map;
   }
 
   static List<NodeValue> getNodeValueByClassify(String key) {
@@ -119,11 +154,11 @@ class DataUtil {
       Entity("f3", "images/test2.jpg", Entity.VIDEO, videUrl: "images/v.mp4"),
     ];
     return [
-      NodeValue("node1", entities, "第一天，我们去了这里😄😄"),
-      NodeValue("node2", entities1,
-          "📌总算把广州给玩明白了 广州好吃、好玩、好逛的6条线路，45个地方。接下来都不怕无聊了🤗 线路：老城区畅玩、畅吃"),
-      NodeValue("node3", entities2, "🎵 美好的一天"),
-      NodeValue("node4", entities3, "徒步旅🚶")
+      // NodeValue("node1", entities, "第一天，我们去了这里😄😄"),
+      // NodeValue("node2", entities1,
+      //     "📌总算把广州给玩明白了 广州好吃、好玩、好逛的6条线路，45个地方。接下来都不怕无聊了🤗 线路：老城区畅玩、畅吃"),
+      // NodeValue("node3", entities2, "🎵 美好的一天"),
+      // NodeValue("node4", entities3, "徒步旅🚶")
     ];
   }
 

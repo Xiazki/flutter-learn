@@ -3,8 +3,10 @@ import 'package:flutter_learn/add/travel_node_add.dart';
 import 'package:flutter_learn/model/classify_value.dart';
 import 'package:flutter_learn/model/node_value.dart';
 import 'package:flutter_learn/node_card.dart';
+import 'package:flutter_learn/state/data_state.dart';
 import 'package:flutter_learn/top_node_card.dart';
 import 'package:flutter_learn/util/data_util.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class Detail extends StatefulWidget {
@@ -17,23 +19,25 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
-  late List<NodeValue> values;
+
 
   @override
   void initState() {
     super.initState();
-    values = DataUtil.getNodeValueByClassify(widget.classifyValue.title!);
   }
 
   void _pressed(){
           Navigator.push(
-        context, MaterialPageRoute(builder: (context) => TravelNodeAdd()));
+        context, MaterialPageRoute(builder: (context) => TravelNodeAdd(classifyId: widget.classifyValue.id,)));
   }
 
   @override
   Widget build(BuildContext context) {
+    DataState dataState = Provider.of<DataState>(context);
+    var values = dataState.nodeMap[widget.classifyValue.id]??[];
     var value = widget.classifyValue;
     int count = values.length + 1;
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
@@ -52,7 +56,6 @@ class _DetailState extends State<Detail> {
               int i = index - 1;
               if (i == -1) {
                 return TopNodeCard(classifyValue: value,);
-              
               } else {
                 return Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
