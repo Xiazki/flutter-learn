@@ -43,19 +43,31 @@ class _NodeCardState extends State<NodeCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 2.0, 10.0, 10.0),
-          child: Row(
+          padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 10.0),
+          child: Column(
             children: [
+              // Container(
+              //   constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8), // 限制宽度为屏幕宽度的80%
+              //   child: Text(
+              //     widget.nodeValue.desc,
+              //     // overflow: TextOverflow.ellipsis,
+              //     softWrap: true,
+              //   ),
+              // ),
               Text(widget.nodeValue.desc),
-              Align(
-                alignment: Alignment.centerRight,
-                child: buildActions(context),
-              )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [buildActions(context)],
+              ),
+              // Align(
+              //   alignment: Alignment.bottomRight,
+              //   child: buildActions(context),
+              // )
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 2.0, 10.0, 10.0),
+          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 10.0),
           child: GridView.count(
               crossAxisCount: 4,
               shrinkWrap: true,
@@ -179,7 +191,7 @@ class _NodeCardState extends State<NodeCard> {
               });
             },
             icon: const Icon(
-              Icons.more_vert,
+              Icons.more_horiz,
               size: 18,
               color: Colors.grey,
             ),

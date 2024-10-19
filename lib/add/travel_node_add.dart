@@ -261,7 +261,7 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
   }
 
   Future<void> selectAssets() async {
-    int limit = 100;
+    int limit = 50;
     if (_selectedEntities != null) {
       int c = _selectedEntities!.length;
       limit = limit - c;
@@ -270,8 +270,9 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
       return;
     }
     List<AssetEntity>? result = await AssetPicker.pickAssets(context,
-        pickerConfig: const AssetPickerConfig(
-          textDelegate: AssetPickerTextDelegate(),
+        pickerConfig: AssetPickerConfig(
+          textDelegate: const AssetPickerTextDelegate(),
+          maxAssets: limit,
         ));
     if (result != null) {
       var assets = Set<AssetEntity>.from(result);
