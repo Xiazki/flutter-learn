@@ -118,8 +118,7 @@ class ClassifyAddState extends State<ClassifyAddPage> {
 
     var imageUrl = _selectedEntities![0].url;
 
-    ClassifyValue classify = ClassifyValue(
-        DataUtil.genUid(), title, imageUrl, desc, "2024年10月1日", "2024年10月1日");
+    ClassifyValue classify = ClassifyValue(DataUtil.genUid(), title, imageUrl, desc, "2024年10月1日", "2024年10月1日");
     classify.imageCount = _selectedEntities?.length ?? 0;
 
     setState(() {
@@ -162,8 +161,7 @@ class ClassifyAddState extends State<ClassifyAddPage> {
                       minimumSize: const Size(400, 50),
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0))),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
                   onPressed: () {
                     saveOrUpdate(dataState);
                   },
@@ -199,10 +197,7 @@ class ClassifyAddState extends State<ClassifyAddPage> {
       height: 50,
       child: TextField(
         controller: titleController,
-        decoration: const InputDecoration(
-            hintText: "请写一个标题（少于15个字）",
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
+        decoration: const InputDecoration(hintText: "请写一个标题（少于15个字）", border: InputBorder.none, hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
       ),
     );
   }
@@ -213,10 +208,7 @@ class ClassifyAddState extends State<ClassifyAddPage> {
       child: TextField(
         controller: descController,
         maxLines: 200,
-        decoration: const InputDecoration(
-            hintText: "添加正文，说一些你想说的话吧",
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
+        decoration: const InputDecoration(hintText: "添加正文，说一些你想说的话吧", border: InputBorder.none, hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
       ),
     );
   }
@@ -247,19 +239,16 @@ class ClassifyAddState extends State<ClassifyAddPage> {
             height: 200,
             child: Stack(
               children: [
-                LayoutBuilder(builder:
-                    (BuildContext context, BoxConstraints constructors) {
+                LayoutBuilder(builder: (BuildContext context, BoxConstraints constructors) {
                   return Container(
                     margin: const EdgeInsets.all(2.0),
                     // elevation: 5,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: AutoResizeImage(
-                                imageProvider: FileImage(
-                                    File.fromRawPath(utf8.encode(item.url))),
+                                imageProvider: FileImage(File.fromRawPath(utf8.encode(item.url))),
                                 width: constructors.maxWidth,
                                 height: constructors.maxHeight))),
                   );
@@ -319,16 +308,12 @@ class ClassifyAddState extends State<ClassifyAddPage> {
       return;
     }
     List<AssetEntity>? result = await AssetPicker.pickAssets(context,
-        pickerConfig: AssetPickerConfig(
-            textDelegate: const AssetPickerTextDelegate(),
-            maxAssets: limit,
-            requestType: RequestType.image));
+        pickerConfig: AssetPickerConfig(textDelegate: const AssetPickerTextDelegate(), maxAssets: limit, requestType: RequestType.image));
     if (result != null) {
       var assets = Set<AssetEntity>.from(result);
       List<Entity> selectValues = [];
       for (var asset in assets) {
         File? file = await asset.file;
-
         if (file != null) {
           selectValues.add(Entity(DataUtil.genUid(), file.path, Entity.IMAGE));
         }
