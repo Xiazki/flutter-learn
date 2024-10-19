@@ -16,6 +16,9 @@ class Entity {
   String? videUrl;
   Duration? duration;
   Uint8List? thumbnailData;
+  DateTime? crateTime;
+  double? lat;
+  double? long;
 
   factory Entity.formJson(Map<String, dynamic> jsonObject) {
     var id = jsonObject["id"];
@@ -24,6 +27,9 @@ class Entity {
     var videUrl = jsonObject["videUrl"];
     var durationTimestamp = jsonObject["duration"];
     var thumbnailDataOri = jsonObject["thumbnailData"];
+    var lat = jsonObject["lat"];
+    var long = jsonObject["long"];
+
     Uint8List? thumbnailData;
     if (thumbnailDataOri != null) {
       thumbnailData = base64Decode(thumbnailDataOri);
@@ -33,6 +39,12 @@ class Entity {
       entity.duration = Duration(milliseconds: durationTimestamp);
     }
     entity.thumbnailData = thumbnailData;
+    var timestamp = jsonObject["crateTime"];
+    if (timestamp != null) {
+      entity.crateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    }
+    entity.lat = lat;
+    entity.long = long;
     return entity;
   }
 
@@ -42,9 +54,11 @@ class Entity {
       "url": url,
       "type": type,
       "videUrl": videUrl,
+      "long": long,
+      "lat": lat,
+      "crateTime": crateTime?.millisecondsSinceEpoch,
       "duration": duration?.inMilliseconds,
-      "thumbnailData":
-          thumbnailData == null ? null : base64Encode(thumbnailData!)
+      "thumbnailData": thumbnailData == null ? null : base64Encode(thumbnailData!)
     };
   }
 }

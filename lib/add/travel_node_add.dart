@@ -88,7 +88,7 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
                       const SizedBox(
                         height: 10,
                       ),
-                      _buildLocationItem()
+                      // _buildLocationItem()
                     ],
                   ),
                 ),
@@ -113,8 +113,7 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
                       minimumSize: const Size(400, 50),
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0))),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
                   onPressed: loading
                       ? null
                       : () {
@@ -148,8 +147,8 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
       showCreateAlertDialog("请写一段关于这些时光的话吧");
       return;
     }
-    NodeValue saveNode = NodeValue(
-        optId!, widget.classifyId, _selectedEntities!, descController.text);
+    NodeValue saveNode = NodeValue(optId!, widget.classifyId, _selectedEntities!, descController.text);
+
     setState(() {
       loading = true;
     });
@@ -223,11 +222,7 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 2.0, 10.0, 10.0),
-      child: GridView.count(
-          crossAxisCount: 4,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: body),
+      child: GridView.count(crossAxisCount: 4, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), children: body),
     );
   }
 
@@ -237,10 +232,7 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
       child: TextField(
         controller: descController,
         maxLines: 100,
-        decoration: const InputDecoration(
-            hintText: "添加正文，说一些你想说的话吧",
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
+        decoration: const InputDecoration(hintText: "添加正文，说一些你想说的话吧", border: InputBorder.none, hintStyle: TextStyle(color: Colors.grey, fontSize: 14)),
       ),
     );
   }
@@ -288,8 +280,11 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
         File? file = await asset.file;
         if (file != null) {
           if (asset.type == AssetType.image) {
-            selectValues
-                .add(Entity(DataUtil.genUid(), file.path, Entity.IMAGE));
+            var vlaue = Entity(DataUtil.genUid(), file.path, Entity.IMAGE);
+            vlaue.crateTime = asset.createDateTime;
+            vlaue.lat = asset.latitude;
+            vlaue.long = asset.longitude;
+            selectValues.add(vlaue);
           } else if (asset.type == AssetType.video) {
             // asset.
             var value = Entity(DataUtil.genUid(), file.path, Entity.VIDEO);

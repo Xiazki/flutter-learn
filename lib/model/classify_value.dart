@@ -1,8 +1,7 @@
 import 'package:flutter_learn/model/entity.dart';
 
 class ClassifyValue {
-  ClassifyValue(this.id, this.title,
-      {this.imageUrl, this.des, this.startTime, this.endTime});
+  ClassifyValue(this.id, this.title, {this.imageUrl, this.des, this.startTime, this.endTime});
 
   String id;
   //标题
@@ -35,8 +34,7 @@ class ClassifyValue {
     if (topEntitiesJsonObj != null) {
       topEntities = topEntitiesJsonObj.map((e) => Entity.formJson(e)).toList();
     }
-    ClassifyValue classifyValue = ClassifyValue(id, title,
-        imageUrl: imageUrl, des: des, startTime: startTime, endTime: endTime);
+    ClassifyValue classifyValue = ClassifyValue(id, title, imageUrl: imageUrl, des: des, startTime: startTime, endTime: endTime);
     classifyValue.topEntities = topEntities;
     classifyValue.imageCount = jsonObject["imageCount"];
     classifyValue.videCount = jsonObject["videCount"];
@@ -45,6 +43,7 @@ class ClassifyValue {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "title": title,
       "imageUrl": imageUrl,
       "des": des,
