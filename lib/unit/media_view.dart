@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +48,8 @@ class _ImageViewState extends State<ImageView> {
               child: Hero(
                 tag: widget.source.id,
                 child: Image(
-                  image: AssetImage(widget.source.url),
+                  image: FileImage(
+                      File.fromRawPath(utf8.encode(widget.source.url))),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -102,7 +106,7 @@ class _VideoViewState extends State<VideoView> {
   }
 
   init() async {
-    _controller = VideoPlayerController.asset(widget.source.url);
+    _controller = VideoPlayerController.file(File.fromRawPath(utf8.encode(widget.source.videUrl!)));
     // loop play
     _controller!.setLooping(true);
     await _controller!.initialize();
@@ -187,7 +191,7 @@ class _FlickVideoViewState extends State<FlickVideoView> {
   @override
   void initState() {
     super.initState();
-    videoPlayerController = VideoPlayerController.asset(widget.entity.videUrl!);
+    videoPlayerController = VideoPlayerController.file(File.fromRawPath(utf8.encode(widget.entity.videUrl!)));
     videoPlayerController.initialize().then((_) {
       // 获取视频的宽高比
       setState(() {

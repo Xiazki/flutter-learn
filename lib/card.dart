@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/add/classify_add_page.dart';
 import 'package:flutter_learn/detail.dart';
 import 'package:flutter_learn/model/classify_value.dart';
 import 'package:flutter_learn/state/data_state.dart';
@@ -106,8 +107,8 @@ class _CardState extends State<CardItem> {
                                               fontWeight: FontWeight.bold,
                                               color: Colors.grey))),
                                   const Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        5.0, 0.0, 0.0, 0.0),
+                                    padding:
+                                        EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Icon(
                                       Icons.play_circle,
                                       size: 18,
@@ -225,6 +226,13 @@ class _CardState extends State<CardItem> {
                       );
                     },
                   );
+                } else if (value == 'edit') {
+                  Navigator.push(
+                      // ignore: use_build_context_synchronously
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ClassifyAddPage(
+                              classifyValue: widget.classifyValue)));
                 }
               });
             },

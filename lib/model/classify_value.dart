@@ -1,8 +1,8 @@
 import 'package:flutter_learn/model/entity.dart';
 
 class ClassifyValue {
-  ClassifyValue(this.id, this.title, this.imageUrl, this.des, this.startTime,
-      this.endTime);
+  ClassifyValue(this.id, this.title,
+      {this.imageUrl, this.des, this.startTime, this.endTime});
 
   String id;
   //标题
@@ -35,8 +35,8 @@ class ClassifyValue {
     if (topEntitiesJsonObj != null) {
       topEntities = topEntitiesJsonObj.map((e) => Entity.formJson(e)).toList();
     }
-    ClassifyValue classifyValue =
-        ClassifyValue(id, title, imageUrl, des, startTime, endTime);
+    ClassifyValue classifyValue = ClassifyValue(id, title,
+        imageUrl: imageUrl, des: des, startTime: startTime, endTime: endTime);
     classifyValue.topEntities = topEntities;
     classifyValue.imageCount = jsonObject["imageCount"];
     classifyValue.videCount = jsonObject["videCount"];
@@ -54,5 +54,28 @@ class ClassifyValue {
       "imageCount": imageCount,
       "videCount": videCount
     };
+  }
+
+  DateTime? getStartDateTime() {
+    if (startTime != null) {
+      return DateTime.parse(startTime!);
+    }
+    return null;
+  }
+
+  DateTime? getEndDateTime() {
+    if (endTime != null) {
+      return DateTime.parse(endTime!);
+    }
+    return null;
+  }
+
+  String getTimeRange() {
+    if (this.startTime == null) {
+      return '';
+    }
+    var startTime = getStartDateTime();
+    var endTime = getEndDateTime();
+    return '${startTime!.year}年${startTime!.month}月${startTime!.day}日 - ${endTime!.year}年${endTime!.month}月${endTime!.day}日';
   }
 }
