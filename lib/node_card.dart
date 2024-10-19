@@ -45,6 +45,8 @@ class _NodeCardState extends State<NodeCard> {
         Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 10.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start, // 确保主轴对齐方式正确
             children: [
               // Container(
               //   constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8), // 限制宽度为屏幕宽度的80%
