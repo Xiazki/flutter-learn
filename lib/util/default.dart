@@ -1,8 +1,11 @@
+// import 'package:amap_flutter_base/amap_flutter_base.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_learn/model/entity.dart';
-import 'package:flutter_learn/util/auto_resize_image.dart';
 
 class DefaultUtil {
+  // static const AMapApiKey amapApiKeys = AMapApiKey(androidKey: 'b20dea00eb86a6dfbb96daf1d18b496a', iosKey: 'b20dea00eb86a6dfbb96daf1d18b496a');
+
+  // static const AMapPrivacyStatement amapPrivacyStatement = AMapPrivacyStatement(hasContains: true, hasShow: true, hasAgree: true);
+
   static Widget divider() {
     return Divider(
       height: 1,
@@ -28,16 +31,14 @@ class DefaultUtil {
 
   static RelativeRect calPosition(BuildContext context) {
     final RenderBox button = context.findRenderObject()! as RenderBox;
-    final RenderBox overlay =
-        Navigator.of(context).overlay!.context.findRenderObject()! as RenderBox;
+    final RenderBox overlay = Navigator.of(context).overlay!.context.findRenderObject()! as RenderBox;
 
     Offset offset = Offset(0.0, button.size.height);
 
     RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
         button.localToGlobal(offset, ancestor: overlay),
-        button.localToGlobal(button.size.bottomRight(Offset.zero) + offset,
-            ancestor: overlay),
+        button.localToGlobal(button.size.bottomRight(Offset.zero) + offset, ancestor: overlay),
       ),
       Offset.zero & overlay.size,
     );

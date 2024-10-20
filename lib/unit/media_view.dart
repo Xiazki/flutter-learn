@@ -48,8 +48,7 @@ class _ImageViewState extends State<ImageView> {
               child: Hero(
                 tag: widget.source.id,
                 child: Image(
-                  image: FileImage(
-                      File.fromRawPath(utf8.encode(widget.source.url))),
+                  image: FileImage(File.fromRawPath(utf8.encode(widget.source.url))),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -142,9 +141,7 @@ class _VideoViewState extends State<VideoView> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _controller!.value.isPlaying
-                        ? _controller!.pause()
-                        : _controller!.play();
+                    _controller!.value.isPlaying ? _controller!.pause() : _controller!.play();
                   });
                 },
                 child: Hero(
@@ -168,9 +165,7 @@ class _VideoViewState extends State<VideoView> {
             ],
           )
         : Theme(
-            data: ThemeData(
-                cupertinoOverrideTheme:
-                    const CupertinoThemeData(brightness: Brightness.dark)),
+            data: ThemeData(cupertinoOverrideTheme: const CupertinoThemeData(brightness: Brightness.dark)),
             child: const CupertinoActivityIndicator(radius: 30));
   }
 }
@@ -210,7 +205,7 @@ class _FlickVideoViewState extends State<FlickVideoView> {
   @override
   void dispose() {
     flickManager.dispose();
-
+    videoPlayerController.dispose();
     super.dispose();
   }
 
@@ -230,8 +225,7 @@ class _FlickVideoViewState extends State<FlickVideoView> {
           body: Center(
             child: PopScope(
               onPopInvokedWithResult: (didPop, result) => {
-                if (flickManager.flickControlManager != null &&
-                    flickManager.flickControlManager!.isFullscreen)
+                if (flickManager.flickControlManager != null && flickManager.flickControlManager!.isFullscreen)
                   {flickManager.flickControlManager!.exitFullscreen()}
               },
               child: Container(
@@ -243,8 +237,7 @@ class _FlickVideoViewState extends State<FlickVideoView> {
                     closedCaptionTextStyle: TextStyle(fontSize: 8),
                     controls: FlickPortraitControls(),
                   ),
-                  flickVideoWithControlsFullscreen:
-                      const FlickVideoWithControls(
+                  flickVideoWithControlsFullscreen: const FlickVideoWithControls(
                     controls: FlickLandscapeControls(),
                   ),
                 ),

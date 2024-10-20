@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<BottomNavigationBarItem> _navigationItems = [
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
-    const BottomNavigationBarItem(icon: Icon(Icons.map), label: "地图"),
+    const BottomNavigationBarItem(icon: Icon(Icons.map), label: "足迹"),
   ];
 
   void _onItemTapped(int index) {
