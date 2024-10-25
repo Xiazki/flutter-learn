@@ -1,10 +1,10 @@
-// import 'package:amap_flutter_base/amap_flutter_base.dart';
+import 'package:amap_flutter_base/amap_flutter_base.dart';
 import 'package:flutter/material.dart';
 
 class DefaultUtil {
-  // static const AMapApiKey amapApiKeys = AMapApiKey(androidKey: 'b20dea00eb86a6dfbb96daf1d18b496a', iosKey: 'b20dea00eb86a6dfbb96daf1d18b496a');
+  static const AMapApiKey amapApiKeys = AMapApiKey(androidKey: 'b20dea00eb86a6dfbb96daf1d18b496a', iosKey: 'b20dea00eb86a6dfbb96daf1d18b496a');
 
-  // static const AMapPrivacyStatement amapPrivacyStatement = AMapPrivacyStatement(hasContains: true, hasShow: true, hasAgree: true);
+  static const AMapPrivacyStatement amapPrivacyStatement = AMapPrivacyStatement(hasContains: true, hasShow: true, hasAgree: true);
 
   static Widget divider() {
     return Divider(
