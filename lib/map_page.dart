@@ -1,3 +1,4 @@
+import 'package:amap_flutter_base/amap_flutter_base.dart';
 import 'package:amap_flutter_map/amap_flutter_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/util/default.dart';
@@ -30,6 +31,10 @@ class MapPageState extends State<MapPage> {
   void onMapCreated(AMapController controller) {
     setState(() {
       _mapController = controller;
+      var son = LatLng(19.158951, 70.749941);
+      var nor = LatLng(53.961716, 141.758028);
+      LatLngBounds bounds = LatLngBounds(southwest: son, northeast: nor);
+      _mapController?.moveCamera(CameraUpdate.newLatLngBounds(bounds, 1));
       getApprovalNumber();
     });
   }
