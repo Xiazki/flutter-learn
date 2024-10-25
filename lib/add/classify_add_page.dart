@@ -373,6 +373,11 @@ class ClassifyAddState extends State<ClassifyAddPage> {
       return;
     }
     List<AssetEntity>? result = await AssetPicker.pickAssets(context,
+        permissionRequestOption: const PermissionRequestOption(
+            androidPermission: AndroidPermission(
+          type: RequestType.common,
+          mediaLocation: true,
+        )),
         pickerConfig: AssetPickerConfig(textDelegate: const AssetPickerTextDelegate(), maxAssets: limit, requestType: RequestType.image));
     if (result != null) {
       var assets = Set<AssetEntity>.from(result);

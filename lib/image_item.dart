@@ -49,8 +49,7 @@ class _ImageState extends State<ImageItem> {
   }
 
   Future<void> _pickFile() async {
-    final result = await FilePicker.platform
-        .pickFiles(type: FileType.any, allowMultiple: false);
+    final result = await FilePicker.platform.pickFiles(type: FileType.any, allowMultiple: false);
     if (result != null) {
       setState(() {
         _image = File(result.files.single.path!);
@@ -72,26 +71,25 @@ class _ImageState extends State<ImageItem> {
   }
 
   Future<void> selectAssets() async {
-    
-    List<AssetEntity>? result = await AssetPicker.pickAssets(context,pickerConfig:AssetPickerConfig(
-      textDelegate: AssetPickerTextDelegate(),
-      maxAssets:1
-    ));
-    if (result != null) {
-      var assets = Set<AssetEntity>.from(result);
-      print(assets.first);
-      AssetEntity asset = assets.first;
-      File? file = await asset.file;
-      if (file != null) {
-        print(file.path);
-        setState(() {
-          _path = file.path;
-        });
-      }
-    }
+    // List<AssetEntity>? result = await AssetPicker.pickAssets(context,pickerConfig:AssetPickerConfig(
+    //   textDelegate: AssetPickerTextDelegate(),
+    //   maxAssets:1
+    // ));
+    // if (result != null) {
+    //   var assets = Set<AssetEntity>.from(result);
+    //   print(assets.first);
+    //   AssetEntity asset = assets.first;
+    //   File? file = await asset.file;
+    //   if (file != null) {
+    //     print(file.path);
+    //     setState(() {
+    //       _path = file.path;
+    //     });
+    //   }
+    // }
   }
 
-  Widget showSelectAssets()  {
+  Widget showSelectAssets() {
     Widget widget = ElevatedButton(
         onPressed: () {
           selectAssets();
@@ -99,9 +97,11 @@ class _ImageState extends State<ImageItem> {
         child: const Text("选择图片"));
 
     List<Widget> list = [
-      SizedBox(height: 200,),
+      SizedBox(
+        height: 200,
+      ),
       widget
-      ];
+    ];
 
     Widget text = Text(_path ?? "");
     list.add(text);
@@ -110,7 +110,7 @@ class _ImageState extends State<ImageItem> {
       list.add(Image.file(File.fromRawPath(utf8.encode(_path!))));
     }
 
-    return  Column(
+    return Column(
       children: list,
     );
   }
@@ -121,8 +121,7 @@ class _ImageState extends State<ImageItem> {
     // print('DCIM directory path: $dcimPath');
     final status = await Permission.manageExternalStorage.request();
     if (status.isGranted) {
-      final path = await ExternalPath.getExternalStoragePublicDirectory(
-          ExternalPath.DIRECTORY_DCIM);
+      final path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DCIM);
       final dcimDirectory = Directory(path);
       List<String> temp = [];
       dcimDirectory.list().forEach((entity) {
@@ -164,8 +163,7 @@ class _ImageState extends State<ImageItem> {
 
   Widget testDir() {
     if (dirs == null || dirs?.length == 0) {
-      return ElevatedButton(
-          onPressed: _getDcimDirectory, child: const Text("显示目录"));
+      return ElevatedButton(onPressed: _getDcimDirectory, child: const Text("显示目录"));
     } else {
       List<Widget> list = [];
       dirs!.forEach((file) {

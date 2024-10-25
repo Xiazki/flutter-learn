@@ -270,6 +270,11 @@ class TravelNodeAddState extends State<TravelNodeAdd> {
       return;
     }
     List<AssetEntity>? result = await AssetPicker.pickAssets(context,
+        permissionRequestOption: const PermissionRequestOption(
+            androidPermission: AndroidPermission(
+          type: RequestType.common,
+          mediaLocation: true,
+        )),
         pickerConfig: AssetPickerConfig(
           textDelegate: const AssetPickerTextDelegate(),
           maxAssets: limit,
